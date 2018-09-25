@@ -1,0 +1,25 @@
+.flex-container {
+    display: flex;
+    flex-direction: row; 
+    height: 500px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .flex-container>div {
+        border: 5px dashed lightblue;
+        border-radius: 10px;
+        background-color: white;
+        text-align: center;
+        color: black;
+        width: 25%;
+        padding-bottom: 20px;
+  }
+
+  .input {
+      width: 75%;
+  }
+
+  a{
+      text-align: center;
+  }
