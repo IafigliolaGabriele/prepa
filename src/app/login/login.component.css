@@ -1,0 +1,22 @@
+
+.flex-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 500px;
+}
+
+.flex-container>div {
+      border: 5px dashed lightblue;
+      border-radius: 10px;
+      background-color: white;
+      text-align: center;
+      color: black;
+      width: 25%;
+      padding-bottom: 20px;
+}
+
+.input {
+    width: 75%;
+}

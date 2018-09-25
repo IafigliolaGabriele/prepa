@@ -1,0 +1,15 @@
+body {
+   background-color: rgba(125, 216, 216, 0.5);
+}
+
+h1 {
+    font-size: 20px;
+}
+
+p {
+    font-family: verdana;
+}
+
+a{
+    text-align: center;
+}
