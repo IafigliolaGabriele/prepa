@@ -15,3 +15,9 @@
 			</form> 
 		</div>
 	</div>
+	<ul>
+			<h1>Books</h1>
+			<li *ngFor="let book of books | async">
+					<pre>{{ book | json }}</pre>
+			</li>
+	</ul>
