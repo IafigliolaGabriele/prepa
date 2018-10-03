@@ -1,0 +1,33 @@
+<div>
+    <div *ngFor="let person of db">
+      <table>
+        <tr>
+        <thead>
+            Ficha: {{person.last_name}},{{person.first_name}}
+        </thead>
+        </tr>
+        <tr>
+          <th>
+            Email
+          </th>
+          <th>
+            Gender
+          </th>
+          <th>
+            Bitcoin Address
+          </th>
+        </tr>
+        <tr>
+          <td>
+            {{person.email}}
+          </td>
+          <td>
+            {{person.gender}}
+          </td>
+          <td>
+            {{person.address}}
+          </td>
+        </tr>
+      </table>
+    </div>
+</div>
