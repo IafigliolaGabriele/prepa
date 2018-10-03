@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireDatabase, AngularFireObject, AngularFireList} from 'angularfire2/database';
+import { Observable } from 'rxjs';
 
 class Book {
   constructor(public title) { }
@@ -12,19 +13,30 @@ class Book {
 })
 export class LoginComponent implements OnInit {
 
-  public books: AngularFireList<Book>;
-
+  public books: Observable<any[]>;
+  public bookRef:any;
   constructor(db: AngularFireDatabase) { 
-    this.books = db.list('/books');
+    this.bookRef = db.list('books')
+    this.books = this.bookRef.valueChanges();
+  }
+
+  onSubmit(data){
+    console.log("Submit",data);
   }
 
   ngOnInit() {
-    this.AddBook()
+   // this.AddBook()
   }
 
-  public AddBook(): void {
-    let newBook = new Book('My book');
-    this.books.push(newBook);
+  public addBook(): void {
+    //let newBook = new Book('My book');
+    //this.bookRef.push(newBook);
+    this.books.forEach(book=>{
+      book.forEach(element => {
+        console.log("Element",element)
+      });
+    })
+    //this.books.push(newBook);
 }
 
 }
