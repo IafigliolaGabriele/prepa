@@ -1,22 +1,21 @@
 <div>
-    <div *ngFor="let person of db">
+    <div class="intern" *ngFor="let person of db">
+      <h3>Ficha: {{person.last_name}},{{person.first_name}}</h3>
       <table>
-        <tr>
         <thead>
-            Ficha: {{person.last_name}},{{person.first_name}}
+            <tr>
+                <th>
+                  Email
+                </th>
+                <th>
+                  Gender
+                </th>
+                <th>
+                  Bitcoin Address
+                </th>
+              </tr>
         </thead>
-        </tr>
-        <tr>
-          <th>
-            Email
-          </th>
-          <th>
-            Gender
-          </th>
-          <th>
-            Bitcoin Address
-          </th>
-        </tr>
+        <tbody>
         <tr>
           <td>
             {{person.email}}
@@ -28,6 +27,7 @@
             {{person.address}}
           </td>
         </tr>
+      </tbody>
       </table>
     </div>
 </div>
