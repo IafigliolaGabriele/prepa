@@ -15,7 +15,7 @@ class Person {
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-
+    
   db: Array<Person> = 
   [
     {
@@ -60,12 +60,39 @@ export class HomeComponent implements OnInit {
     }
   ]
 
+  filteredDb: Array<Person>;
+
+  texto: string = "Texto";
 
   constructor() { }
 
+  agregarPersona(){
+
+    let newPerson = {
+      "id":6,
+      "first_name":this.texto,
+      "last_name":"Caramba",
+      "email":"aycaramba@netvibes.com",
+      "gender":"Male",
+      "address":"1ET1kVe7YrVJgKGXpBULgHZjsG7LiJ7wh4"
+    }
+    this.texto = newPerson.email;
+    this.db.push(newPerson);
+  }
+
+  eliminarPersona(){
+    this.db.pop();
+  }
+
   ngOnInit() {
     this.db.forEach((person: Person)=>{
-      console.log("Person",person)
+      console.log("Person",person.first_name)
+    })
+
+    this.filteredDb = this.db.filter(person=>{
+      if(person.gender=="Male"){
+        return person;
+      }
     })
   }
 

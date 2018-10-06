@@ -9,7 +9,8 @@ import {AngularFireModule} from 'angularfire2';
 import {AngularFireDatabaseModule} from 'angularfire2/database';
 import {environment} from '../environments/environment';
 import { HomeComponent } from './home/home.component';
-
+import { FormsModule }   from '@angular/forms';
+import { PersonComponent } from './person/person.component';
 
 
 @NgModule({
@@ -17,9 +18,11 @@ import { HomeComponent } from './home/home.component';
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    HomeComponent
+    HomeComponent,
+    PersonComponent
   ],
   imports: [
+    FormsModule,
     BrowserModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.config,"prepa"),
