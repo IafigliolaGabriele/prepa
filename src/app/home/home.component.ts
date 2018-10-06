@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import {NetworkService} from '../network.service';
 class Person {
   id: number;
   first_name: string;
@@ -64,7 +64,10 @@ export class HomeComponent implements OnInit {
 
   texto: string = "Texto";
 
-  constructor() { }
+  constructor(network: NetworkService) {
+    //network.entrenar();
+    network.entrenar2();
+   }
 
   agregarPersona(){
 
