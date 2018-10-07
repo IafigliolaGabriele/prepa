@@ -1,15 +1,10 @@
-<td>
-    {{person.first_name}}
-  </td>
-  <td>
-    {{person.last_name}}
-  </td>
-  <td>
-    {{person.email}}
-  </td>
-  <td>
-    {{person.gender}}
-  </td>
-  <td>
-    {{person.address}}
-</td>
+<div class="container">
+    <h2>Full name: {{person.last_name}}, {{person.first_name}}</h2>
+    <div class="card">
+      <div class="card-body">
+            <p>Email: {{person.email}}</p>
+            <p>Genero: {{person.gender}}</p>
+            <p>Direccion: {{person.address}}</p>
+      </div>
+    </div>
+  </div>

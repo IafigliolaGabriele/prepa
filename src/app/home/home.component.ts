@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {NetworkService} from '../network.service';
+import { getHostElement } from '@angular/core/src/render3';
+import { getDOM } from '@angular/platform-browser/src/dom/dom_adapter';
 class Person {
   id: number;
   first_name: string;
@@ -87,15 +89,22 @@ export class HomeComponent implements OnInit {
     this.db.pop();
   }
 
-  ngOnInit() {
-    this.db.forEach((person: Person)=>{
-      console.log("Person",person.first_name)
-    })
-
+  filtrar(){
     this.filteredDb = this.db.filter(person=>{
-      if(person.gender=="Male"){
+      if(person.gender.includes(this.texto)){
         return person;
       }
+    })
+  }
+
+  onSubmit(value){
+    console.log("Form",value)
+  }
+
+  ngOnInit() {
+    this.filteredDb = this.db;
+    this.db.forEach((person: Person)=>{
+      console.log("Person",person.first_name)
     })
   }
 

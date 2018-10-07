@@ -1,36 +1,25 @@
-<div>
-    <button (click)="agregarPersona()"> Agregar Persona Dummy</button>
-    <button *ngIf = "db.length > 1" (click)="eliminarPersona()"> Eliminar ultima Persona</button> 
+<div class ="container">
     <div>
-      <h3>Fichas: {{texto}}</h3>
-      <form #customerForm="ngForm">
-        <input type="text" class="form-control" id="texto"  required [(ngModel)]="texto" name="text"> 
-      </form>
-      <table >
-        <thead>
-            <tr>
-                <th>
-                    First Name
-                </th>
-                <th>
-                    Last Name
-                </th>
-                <th>
-                  Email
-                </th>
-                <th>
-                  Gender
-                </th>
-                <th>
-                  Bitcoin Address
-                </th>
-              </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let person of db">
-          <app-person [persona]="person"></app-person>
-        </tr>
-      </tbody>
-      </table>
+        <accordion>
+            <accordion-group heading="Formulario">
+                <h3>Fichas: {{texto}}</h3>
+                <form #form="ngForm" (ngSubmit)="onSubmit(form.value)">
+                  <input type="text" class="form-control" id="texto"  required [(ngModel)]="texto" name="text"> 
+                  <button type="Submit" [disabled]="!form.valid" class="btn btn-secondary"> Submit</button>
+                </form>
+            </accordion-group>
+        </accordion>
     </div>
+    <div class="btn-group" role="group" aria-label="Basic example">
+        <button (click)="agregarPersona()" type="button" class="btn btn-secondary"> Agregar Persona Dummy</button>
+        <button *ngIf = "db.length > 1" (click)="eliminarPersona()" type="button" class="btn btn-secondary"> Eliminar ultima Persona</button> 
+        <button (click)="filtrar()" type="button" class="btn btn-secondary">Filtrar</button>
+    </div>
+    <div>
+      <accordion>
+          <accordion-group *ngFor="let person of filteredDb" [heading]="person.last_name.concat(',').concat(person.first_name)">
+            <app-person [persona] = "person"> </app-person>
+          </accordion-group>
+      </accordion>
+  </div>
 </div>

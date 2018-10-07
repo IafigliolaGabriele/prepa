@@ -1,5 +1,10 @@
-body {
+body, head, footer{
    background-color: rgba(125, 216, 216, 0.5);
+}
+
+footer{
+    padding: 10px;
+    text-align: center;
 }
 
 h1 {

@@ -11,6 +11,7 @@ import {environment} from '../environments/environment';
 import { HomeComponent } from './home/home.component';
 import { FormsModule }   from '@angular/forms';
 import { PersonComponent } from './person/person.component';
+import { AppBootstrapModule } from './app-bootstrap.module';
 
 
 @NgModule({
@@ -25,10 +26,11 @@ import { PersonComponent } from './person/person.component';
     FormsModule,
     BrowserModule,
     AppRoutingModule,
+    AppBootstrapModule,
     AngularFireModule.initializeApp(environment.config,"prepa"),
     AngularFireDatabaseModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent,HomeComponent]
 })
 export class AppModule { }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Layer,Network,Architecture,Trainer} from 'synaptic'
+import {Layer,Network,Architecture,Trainer,Neuron} from 'synaptic'
 
 
 class Item {
@@ -26,6 +26,16 @@ export class NetworkService {
     this.outputLayer = new Layer(1)
     this.inputLayer.project(this.hiddenLayer);
     this.hiddenLayer.project(this.outputLayer);
+    this.inputLayer.set({
+      squash: Neuron.squash.TANH
+    })
+    this.hiddenLayer.set({
+      squash: Neuron.squash.TANH
+    })
+    // this.inputLayer.set({
+    //   squash: Neuron.squash.TANH
+    // })
+
     this.network = new Network({
       input: this.inputLayer,
       hidden: [this.hiddenLayer],
