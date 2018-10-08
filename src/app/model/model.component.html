@@ -1,0 +1,43 @@
+<div class="container">
+    <div>
+        <h3 style="align-self: center !important;">Form Arquitectura Red Neuronal</h3>
+        <form #archForm="ngForm" (ngSubmit)="create(archForm.value)">
+          <label>Number of Input Neurons</label>
+          <input type="number" class="form-control" id="input"  required [(ngModel)]="input" name="input"> 
+          <label>Number of Neurons in hidden Layer</label>
+          <input type="number" class="form-control" id="hidden"  required [(ngModel)]="hidden" name="hidden"> 
+          <label>Number of output Neurons</label>
+          <input type="number" class="form-control" id="output"  required [(ngModel)]="output" name="output"> 
+          <button type="Submit" [disabled]="!archForm.valid" class="btn btn-secondary"> Submit</button>
+        </form>
+      </div>   
+  <div *ngIf="modelCreated">
+    <h3>Form Entrenamiento Red Neuronal</h3>
+    <form #modelForm="ngForm" (ngSubmit)="train(modelForm.value)">
+      <label>Learning Rate</label>
+      <input type="number" class="form-control" id="learning_rate"  required [(ngModel)]="learning_rate" name="learning_rate"> 
+      <label>Max Number of Iterations</label>
+      <input type="number" class="form-control" id="iterations"  required [(ngModel)]="iterations" name="iterations"> 
+      <label>Max error</label>
+      <input type="number" class="form-control" id="error"  required [(ngModel)]="error" name="error"> 
+      <button type="Submit" [disabled]="!modelForm.valid" class="btn btn-secondary"> Submit</button>
+    </form>
+    <div *ngIf = "result!=null">
+    <h3>Resultados</h3>
+    <ol>
+      <li>Number of Iterations: {{result.iterations}}</li>
+      <li>Final error: {{result.error}}</li>
+      <li>Time : {{result.time}}</li>
+    </ol>
+    </div>
+    <h3>Form Usar Red Neuronal</h3>
+    <form #actForm="ngForm" (ngSubmit)="use(actForm.value)">
+      <label>Inputs</label>
+      <select name="inputs" class="form-control" id="inputs" [(ngModel)]="inputs" multiple>
+        <option *ngFor="let input of currentInputs" value="{{input}}">{{input}}</option>
+      </select>   
+      <button type="Submit" [disabled]="!actForm.valid" class="btn btn-secondary"> Submit</button>
+    </form>
+      <h1>Evaluacion: {{evaluation}}</h1>
+  </div>
+</div>

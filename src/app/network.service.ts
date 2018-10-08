@@ -32,9 +32,9 @@ export class NetworkService {
     this.hiddenLayer.set({
       squash: Neuron.squash.TANH
     })
-    // this.inputLayer.set({
-    //   squash: Neuron.squash.TANH
-    // })
+    this.inputLayer.set({
+      squash: Neuron.squash.TANH
+    })
 
     this.network = new Network({
       input: this.inputLayer,
@@ -90,6 +90,27 @@ export class NetworkService {
 
   }
 
+  create(config){
+
+    this.inputLayer = new Layer(config.input);
+    this.hiddenLayer = new Layer(config.hidden);
+    this.outputLayer = new Layer(config.output)
+    this.inputLayer.project(this.hiddenLayer);
+    this.hiddenLayer.project(this.outputLayer);
+    this.inputLayer.set({
+      squash: Neuron.squash.TANH
+    })
+    this.hiddenLayer.set({
+      squash: Neuron.squash.TANH
+    })
+
+    this.network = new Network({
+      input: this.inputLayer,
+      hidden: [this.hiddenLayer],
+      output: this.outputLayer
+    })
+  }
+
  async entrenar2(){
     let trainer = new Trainer(this.network)
     console.log("Training ...");
@@ -103,8 +124,27 @@ export class NetworkService {
     });
 
     console.log("Training:",training)
-
+    return training;
   }
 
+  async entrenar3(config){
+    let trainer = new Trainer(this.network)
+    console.log(config,"Training ...");
+    let training = await trainer.train(this.trainingSet,{
+      rate: config.learning_rate,
+      iterations: config.iterations,
+      error: config.error,
+      shuffle: true,
+      log: 10,
+      cost: Trainer.cost.MSE 
+    });
+
+    console.log("Training:",training)
+    return training;
+  }
+
+  evaluate(inputs){
+    return this.network.activate(inputs);
+  }
 
 }

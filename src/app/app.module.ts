@@ -12,6 +12,7 @@ import { HomeComponent } from './home/home.component';
 import { FormsModule }   from '@angular/forms';
 import { PersonComponent } from './person/person.component';
 import { AppBootstrapModule } from './app-bootstrap.module';
+import { ModelComponent } from './model/model.component';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { AppBootstrapModule } from './app-bootstrap.module';
     LoginComponent,
     RegisterComponent,
     HomeComponent,
-    PersonComponent
+    PersonComponent,
+    ModelComponent
   ],
   imports: [
     FormsModule,
