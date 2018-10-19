@@ -13,6 +13,7 @@ import { FormsModule }   from '@angular/forms';
 import { PersonComponent } from './person/person.component';
 import { AppBootstrapModule } from './app-bootstrap.module';
 import { ModelComponent } from './model/model.component';
+import { NavBarComponent } from './nav-bar/nav-bar.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { ModelComponent } from './model/model.component';
     RegisterComponent,
     HomeComponent,
     PersonComponent,
-    ModelComponent
+    ModelComponent,
+    NavBarComponent
   ],
   imports: [
     FormsModule,

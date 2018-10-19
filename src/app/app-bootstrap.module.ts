@@ -1,16 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AccordionModule, ButtonsModule} from 'ngx-bootstrap';
+import { AccordionModule, ButtonsModule, ModalModule,  BsDropdownModule} from 'ngx-bootstrap';
 
 @NgModule({
   imports: [
     CommonModule,
     AccordionModule.forRoot(),
-    ButtonsModule.forRoot()
+    ButtonsModule.forRoot(),
+    ModalModule.forRoot(),
+    BsDropdownModule.forRoot()
   ],
   exports: [
     AccordionModule,
-    ButtonsModule
+    ButtonsModule,
+    ModalModule,
+    BsDropdownModule
   ],
   declarations: [],
   providers: []
