@@ -51,6 +51,9 @@
         </ng-template>
 
   </div>
-
-
+  <ul>
+			<li *ngFor="let tutor of tutor | async">
+          <pre>{{tutor}}</pre>
+			</li>
+	</ul>
 </div>

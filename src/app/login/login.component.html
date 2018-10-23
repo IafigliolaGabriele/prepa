@@ -2,21 +2,19 @@
 	<div class="flex-container">
 		<div>
 			<h1>Login</h1>
-			<form>
-			  Username:<br>
-			  <input class="input" type="text" name="username" placeholder="Username">
-			  <br>
-			  Password:<br>
-			  <input class="input" type="password" name="password" placeholder="Password">
-			  <br><br>
-			  <input type="submit" value="Submit">
-			</form> 
+			<form #form="ngForm" (ngSubmit)="onSubmit(form.value)">
+				<label>Email</label>
+				<input type="text" class="form-control" id="email"  required [(ngModel)]="email" name="email"> 
+				<label>Password</label>
+				<input type="password" class="form-control" id="password"  required [(ngModel)]="password" name="password"> 
+				<button type="Submit" [disabled]="!form.valid" > Submit</button>
+			  </form>
 		</div>
 	</div>
 	<button (click)='addBook()' class='btn btn-secondary'>Imprimir</button>
 	<h1>Books</h1>
 	<ul>
 			<li *ngFor="let book of books | async">
-					<pre>{{book.title}}</pre>
+					<pre>{{book.email}}</pre>
 			</li>
 	</ul>

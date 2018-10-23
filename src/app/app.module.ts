@@ -14,6 +14,15 @@ import { PersonComponent } from './person/person.component';
 import { AppBootstrapModule } from './app-bootstrap.module';
 import { ModelComponent } from './model/model.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
+import {NetworkService} from './network.service';
+import {AuthService} from './auth.service';
+import { RouterModule,  Router } from '@angular/router';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { AngularFireAuthModule } from 'angularfire2/auth';
+//import { AuthGuard } from './services/auth.guard';
+//import { UserService } from './services/user.service';
+import { AngularFireDatabase } from 'angularfire2/database';
+
 
 
 @NgModule({
@@ -31,10 +40,13 @@ import { NavBarComponent } from './nav-bar/nav-bar.component';
     BrowserModule,
     AppRoutingModule,
     AppBootstrapModule,
-    AngularFireModule.initializeApp(environment.config,"prepa"),
-    AngularFireDatabaseModule
+    //AngularFireModule.initializeApp(environment.firebase,"sapbe"),
+    AngularFireDatabaseModule,
+    AngularFireModule.initializeApp(environment.config),
+    AngularFirestoreModule, // imports firebase/firestore, only needed for database features
+    AngularFireAuthModule, // imports firebase/auth, only needed for auth features
   ],
-  providers: [],
-  bootstrap: [AppComponent,HomeComponent]
+  providers: [AuthService,NetworkService],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

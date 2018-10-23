@@ -1,4 +1,7 @@
 import { Injectable } from '@angular/core';
+import { AngularFireDatabase, AngularFireObject, AngularFireList} from 'angularfire2/database';
+import {AngularFirestoreCollection, AngularFirestore} from 'angularfire2/firestore'
+import { Observable } from 'rxjs';
 
 
 class Person {
@@ -59,31 +62,35 @@ export class DatabaseService {
       "address":"1ET1kVe7YrVJgKXXpBULgHZjsG7LiJ7wh4"
     }
   ]
-
-  constructor() { }
+  personRef: AngularFirestoreCollection<Person>
+  constructor(private aft: AngularFirestore) { 
+    this.personRef = this.aft.collection('persons')
+    let person = {
+      id: 24532123,
+      first_name:"Mariel",
+      last_name:"Trees",
+      email:"mtrees0@redcross.org",
+      gender:"Female",
+      address:"13TNr7GNKdNjv6zv42K25tcD2WViPmeB9N"
+    }
+    //this.personRef.add(person)
+  }
 
   getAllPersons(){
-    return this.db;
+     return this.personRef.snapshotChanges();
   }
 
   getPersonByID(id){
-    return this.db.filter((element:Person)=>{
-      if(element.id == id){
-        return element;
-      }
-    })
+    return this.aft.collection('persons',ref=>ref.where('gender','==','Male')).valueChanges()
   }
 
     getPersonByGender(gender){
-    return this.db.filter((element:Person)=>{
-      if(element.gender == gender){
-        return element;
-      }
-    })
+      return this.aft.collection('persons',ref=>ref.where('gender','==',gender)).valueChanges()
+ 
   }
 
   addPerson(person){
-    this.db.push(person);
+    this.aft.collection('persons').add(person);
   }
 
   deleteLastPerson(){
