@@ -81,11 +81,11 @@ export class DatabaseService {
   }
 
   getPersonByID(id){
-    return this.aft.collection('persons',ref=>ref.where('gender','==','Male')).valueChanges()
+    return this.aft.collection('persons', ref=>ref.where('gender','==','Male')).valueChanges()
   }
 
     getPersonByGender(gender){
-      return this.aft.collection('persons',ref=>ref.where('gender','==',gender)).valueChanges()
+      return this.aft.collection('persons', ref=>ref.where('gender','==',gender)).valueChanges()
  
   }
 

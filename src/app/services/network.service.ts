@@ -21,8 +21,8 @@ export class NetworkService {
   tranier: Trainer;
 
   constructor() { 
-    this.inputLayer = new Layer(10);
-    this.hiddenLayer = new Layer(6);
+    this.inputLayer = new Layer(7);
+    this.hiddenLayer = new Layer(4);
     this.outputLayer = new Layer(1)
     this.inputLayer.project(this.hiddenLayer);
     this.hiddenLayer.project(this.outputLayer);
@@ -35,7 +35,6 @@ export class NetworkService {
     this.outputLayer.set({
       squash: Neuron.squash.SIGM
     })
-
     this.network = new Network({
       input: this.inputLayer,
       hidden: [this.hiddenLayer],
@@ -51,64 +50,56 @@ export class NetworkService {
 
   trainingSet2=
   [
-  {input: [0,0,0,0,0,1,0,0,0,0] , output: [1]},
-  {input: [0,0,0,0,0,1,0,0,0,0] , output: [1]},
-  {input: [1,0,0,0,0,0,0,0,1,0] , output: [1]},
-  {input: [1,1,0,0,0,0,0,1,1,0] , output: [1]},
-  
-  {input: [1,1,1,0,0,0,1,0,1,1] , output: [1]},
-  {input: [0,1,0,1,0,0,1,0,1,0] , output: [1]},
-  {input: [1,1,0,1,0,0,0,0,1,1] , output: [1]},
-  
-  {input: [1,1,0,0,0,0,0,1,1,0] , output: [1]},
-  {input: [0,1,0,0,0,0,1,0,1,0] , output: [1]},
-  {input: [0,1,1,0,1,0,0,1,0,1] , output: [1]},
-  {input: [0,1,0,0,0,0,0,0,1,0] , output: [1]},
-  
-  {input: [1,1,0,1,1,0,1,0,1,0] , output: [1]},
-  {input: [0,1,0,0,1,0,0,0,1,0] , output: [1]},
-  {input: [0,0,0,0,1,1,1,0,1,0] , output: [1]},
-  
-  {input: [0,0,1,0,1,1,1,0,1,0] , output: [1]},
-  {input: [0,1,0,1,0,0,1,0,1,1] , output: [1]},
-  {input: [0,0,0,0,0,1,0,0,0,0] , output: [1]},
-  {input: [1,1,0,1,0,0,1,1,1,0] , output: [1]},
-  
-  {input: [0,0,0,0,0,1,1,0,1,0] , output: [1]},
-  {input: [0,1,0,0,0,0,0,0,1,0] , output: [1]},
-  {input: [1,1,1,0,0,0,1,0,1,0] , output: [1]},
-  {input: [1,0,1,0,0,1,0,0,1,0] , output: [1]},
-  {input: [1,1,0,0,0,0,0,0,1,0] , output: [1]},
-  {input: [1,0,1,0,0,1,1,1,1,0] , output: [1]},
-  {input: [0,1,0,0,1,0,1,1,1,0] , output: [1]},
-  
-  {input: [0,1,0,0,0,0,0,0,1,1] , output: [1]},
-  {input: [1,0,0,0,0,1,0,1,1,1] , output: [1]},
-  {input: [1,1,0,0,0,0,0,1,1,0] , output: [1]},
-  
-  {input: [1,1,0,1,1,0,0,1,1,0] , output: [1]},
-  {input: [1,0,1,0,0,1,1,1,1,0] , output: [1]},
-  {input: [0,1,0,0,0,0,0,0,1,1] , output: [0]},
-  {input: [0,0,0,0,0,1,1,0,1,0] , output: [0]},
-  {input: [0,1,0,0,1,0,0,0,1,0] , output: [0]},
-  
-  {input: [1,1,0,1,0,0,0,0,1,0] , output: [0]},
-  {input: [0,1,0,0,0,0,0,0,1,0] , output: [0]},
-  {input: [1,0,0,0,1,1,0,0,1,0] , output: [0]}
-  ]
-  
+    {input: [0,0,0,0,0,0,0] , output:[1]},
+    {input: [0,0,0,0,0,0,0] , output:[1]},
+    {input: [1,1,0,0,0,0,1] , output:[1]},
+    {input: [0,1,1,0,0,0,0] , output:[1]},
+    {input: [0,1,0,1,0,1,0] , output:[1]},
+    {input: [1,1,0,1,0,0,0] , output:[1]},
+    {input: [1,1,0,0,0,0,1] , output:[1]},
+    {input: [0,1,0,0,0,1,0] , output:[1]},
+    {input: [0,1,1,0,1,0,1] , output:[1]},
+    {input: [0,1,0,0,0,0,0] , output:[1]},
+    {input: [1,0,0,0,0,0,0] , output:[1]},
+    {input: [0,1,0,0,1,0,0] , output:[1]},
+    {input: [0,0,0,0,1,1,0] , output:[1]},
+    {input: [1,1,0,0,1,0,1] , output:[1]},
+    {input: [0,0,1,0,1,1,0] , output:[1]},
+    {input: [0,1,0,1,0,1,0] , output:[1]},
+    {input: [0,0,0,0,0,0,0] , output:[1]},
+    {input: [0,1,0,0,1,1,0] , output:[1]},
+    {input: [0,0,0,0,0,1,0] , output:[1]},
+    {input: [0,1,0,0,0,0,0] , output:[1]},
+    {input: [1,1,1,0,0,1,0] , output:[1]},
+    {input: [1,0,1,0,0,0,0] , output:[1]},
+    {input: [1,1,0,0,0,0,0] , output:[1]},
+    {input: [1,0,1,0,0,1,1] , output:[1]},
+    {input: [0,1,1,0,1,0,0] , output:[1]},
+    {input: [0,1,0,0,0,0,0] , output:[1]},
+    {input: [1,0,0,0,0,0,1] , output:[1]},
+    {input: [1,1,0,0,0,0,1] , output:[1]},
+    {input: [1,1,0,1,0,1,1] , output:[1]},
+    {input: [1,1,0,1,1,0,1] , output:[1]},
+    {input: [0,1,0,0,0,0,0] , output:[0]},
+    {input: [0,0,0,0,0,1,0] , output:[0]},
+    {input: [1,1,0,0,0,0,0] , output:[0]},
+    {input: [1,1,0,1,0,0,0] , output:[0]},
+    {input: [0,1,0,0,0,0,0] , output:[0]},
+    {input: [1,0,0,0,1,0,0] , output:[0]} 
+    ]
+      
   validationSet = 
   [
-  {input: [0,0,0,1,1,0,0,0,1,1] , output: [0]},
-  {input: [1,1,0,0,0,0,0,0,1,0] , output: [0]},
-  {input: [1,1,0,1,0,0,1,1,1,1] , output: [1]},
-  {input: [0,1,1,0,1,0,0,0,1,0] , output: [1]},
-  {input: [0,1,0,0,1,0,1,0,1,0] , output: [1]},
-  {input: [1,1,0,0,1,0,0,1,1,0] , output: [1]},
-  {input: [1,0,0,0,0,1,0,0,1,1] , output: [1]},
-  {input: [0,1,1,1,0,0,0,0,0,0] , output: [1]},
-  {input: [0,1,1,0,0,0,0,0,0,1] , output: [1]}
-  ]
+    {input: [1,0,0,0,0,0,0] , output:	[1]},
+    {input: [1,1,1,0,0,1,0] , output:	[1]},
+    {input: [0,1,1,1,0,0,0] , output:	[1]},
+    {input: [1,0,1,0,0,1,1] , output:	[1]},
+    {input: [0,1,0,0,1,1,1] , output:	[1]},
+    {input: [1,1,0,1,0,1,1] , output:	[1]},
+    {input: [1,1,0,1,1,1,0] , output:	[1]},
+    {input: [0,1,0,0,1,0,0] , output:	[0]},
+    {input: [0,0,0,1,1,0,0] , output:	[0]}
+    ]
 //ftp://puceftp.puce.edu.ec/Facultades/CienciasEducacion/Maestria/CienciasEducacion/Econom%C3%ADa%20de%20la%20Educaci%C3%B3n/Molera_Caballero.pdf
 //https://scielo.conicyt.cl/scielo.php?script=sci_arttext&pid=S0718-33052016000400015
   entrenar(){
@@ -165,7 +156,7 @@ export class NetworkService {
       rate: 0.4,
       iterations: 5000,
       error: .05,
-      shuffle: true,
+      //shuffle: true,
       log: 10,
       cost: Trainer.cost.MSE 
     });
@@ -200,6 +191,11 @@ export class NetworkService {
       console.log("Expected Output: "+item.output);
       let result = this.network.activate(item.input);
       console.log("Network Output "+result)
+      if(Math.round(result)==item.output[0]){
+        console.log("Acierto")
+      }else{
+        console.log("Desacierto")
+      }
       console.log("----------------------------------------")
     });
   }

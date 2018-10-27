@@ -19,9 +19,13 @@ export class ModelComponent implements OnInit {
   evaluation: number;
 
   train(config){
-    this.network.entrenar3(config).then(result=>{
-      this.result = result;
-    })
+    let trainingReport = this.network.entrenar2();
+    console.log("TrainingReport",trainingReport);
+  }
+
+  validate(config){
+    this.network.evaluate2(0);
+    this.network.export();
   }
 
   use(config){

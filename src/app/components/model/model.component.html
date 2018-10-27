@@ -11,6 +11,8 @@
           <button type="Submit" [disabled]="!archForm.valid" class="btn btn-secondary"> Submit</button>
         </form>
       </div>   
+      <button (click)='train(0)'>Train</button>
+      <button (click)='validate(0)'>Evaluate</button>
   <div *ngIf="modelCreated">
     <h3>Form Entrenamiento Red Neuronal</h3>
     <form #modelForm="ngForm" (ngSubmit)="train(modelForm.value)">
