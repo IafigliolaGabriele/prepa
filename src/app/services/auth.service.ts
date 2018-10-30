@@ -4,6 +4,7 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import * as firebase from 'firebase/app';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { AngularFirestore } from 'angularfire2/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -12,16 +13,22 @@ export class AuthService {
 
   public user: Observable<firebase.User | null>;
   usuario;
-  currentUser = new EventEmitter();
+  currentUser: firebase.User;
   userKey: any;
 
-  constructor(public afAuth: AngularFireAuth, private router: Router, private db: AngularFireDatabase) {
+  constructor(
+    public afAuth: AngularFireAuth, 
+    private router: Router, 
+    private db: AngularFirestore) 
+  {
     this.afAuth.auth.onAuthStateChanged(
       (auth) => {
         if (auth != null) {
           //this.user = this.af.database.object('users/' + auth.uid);
-
+          this.currentUser = this.afAuth.auth.currentUser;
           this.userKey = auth.uid;
+        }else{
+          this.router.navigate(['login'])
         }
       });
     this.user = this.afAuth.authState
@@ -31,11 +38,22 @@ export class AuthService {
     return new Promise<any>((resolve, reject) => {
       firebase.auth().createUserWithEmailAndPassword(value.email, value.password)
       .then((user) => {
-        //resolve(res);
-        // this.db.database.ref().child('users/'+user.user.uid).set({
-        //   username: value.username,
-        //   email: value.email,
-        // });
+        this.db.collection("users").doc(user.user.uid).set({
+          username: value.username,
+          email: value.email,
+         })
+         console.log("User",user);
+          user.user.updateProfile({
+            displayName: value.username,
+            photoURL: "none"
+          }).then(function() {
+            console.log("Succes")
+            // Update successful.
+          }).catch(function(error) {
+            console.log("Failure")
+            // An error happened.
+          });
+      resolve(true)
       }, err => reject(err))
     })
   }
@@ -45,7 +63,8 @@ export class AuthService {
       firebase.auth().signInWithEmailAndPassword(value.email, value.password)
       .then(res => {
         console.log("respuesta",res)
-          localStorage.setItem("user",JSON.stringify(res.user))
+        this.router.navigate(['home'])
+        localStorage.setItem("user",JSON.stringify(res.user))
         resolve(res);
       }, err => reject(err))
     })
@@ -56,7 +75,6 @@ export class AuthService {
       if(firebase.auth().currentUser){
         this.afAuth.auth.signOut()
         resolve();
-        this.router.navigate(['/login']);
       }
       else{
         reject();

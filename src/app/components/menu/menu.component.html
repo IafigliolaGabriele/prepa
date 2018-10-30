@@ -1,0 +1,36 @@
+<div class ="container">
+<div>
+  <accordion>
+      <accordion-group *ngFor="let person of filteredDb" [heading]="person.last_name.concat(',').concat(person.first_name)">
+        <app-person [person] = "person"> </app-person>
+      </accordion-group>
+  </accordion>
+</div>
+  <div>
+    <button type="button" class="btn btn-primary" (click)="openModal(template)">Open Modal</button>
+
+    <ng-template #template>
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Create Food</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        This is a modal.
+        <form [formGroup]="foodForm">
+          <label>Name</label>
+          <input type="text" class="form-control" id="name"   formControlName = "name"  name="name"> 
+          <label>Description</label>
+          <input type="text" class="form-control" id="description"  formControlName = "description" name="description">
+          <label>Image</label>
+          <br>
+          <input class="file-input" type="file"  formControlName = "image_url" name="image_url" (change)="uploadFile($event)">
+          <br>
+          <br>
+          <button (click)="onSubmit()" type="Submit" class="button-primary" [disabled]="!foodForm.valid" > Submit</button>
+        </form>
+      </div>
+    </ng-template>
+  </div>
+</div>

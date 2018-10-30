@@ -13,6 +13,12 @@ class Person {
   address: string;
 }
 
+class Food {
+  key?: string;
+  name: string;
+  description: string;
+  image_url: string;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -63,30 +69,30 @@ export class DatabaseService {
     }
   ]
   personRef: AngularFirestoreCollection<Person>
+  foodRef: AngularFirestoreCollection<Food>
   constructor(private aft: AngularFirestore) { 
     this.personRef = this.aft.collection('persons')
-    let person = {
-      id: 24532123,
-      first_name:"Mariel",
-      last_name:"Trees",
-      email:"mtrees0@redcross.org",
-      gender:"Female",
-      address:"13TNr7GNKdNjv6zv42K25tcD2WViPmeB9N"
-    }
-    //this.personRef.add(person)
+    this.foodRef = this.aft.collection('foods')
   }
 
   getAllPersons(){
      return this.personRef.snapshotChanges();
   }
 
+  getAllFoods(){
+    return this.foodRef.snapshotChanges();
+ }
+
   getPersonByID(id){
-    return this.aft.collection('persons', ref=>ref.where('gender','==','Male')).valueChanges()
+    return this.aft.collection('persons').doc(id).valueChanges()
   }
 
     getPersonByGender(gender){
       return this.aft.collection('persons', ref=>ref.where('gender','==',gender)).valueChanges()
- 
+  }
+
+  addFood(food){
+    this.aft.collection('foods').add(food);
   }
 
   addPerson(person){

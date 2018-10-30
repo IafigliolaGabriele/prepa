@@ -2,15 +2,35 @@
 <div class="flex-container">
 		<div>
 			<h1>Registro Prepa</h1>
-			<form action="/action_page.php">
-			  Username:<br>
-			  <input class="input" type="text" name="username" placeholder="Username">
-			  <br>
-			  Password:<br>
-			  <input class="input" type="password" name="password" placeholder="Password">
-			  <br>
-			  <br><br>
-			  <input type="submit" value="Submit">
-			</form> 
+			<form [formGroup]="registerForm">
+				<label>Username</label>
+				<input type="text" class="form-control"  formControlName = 'username' id="username"  name="username"> 
+				<label>Email</label>
+				<input type="text" class="form-control"  formControlName = 'email' id="email" name="email"> 
+				<label>Password</label>
+				<input type="password" class="form-control" formControlName = 'password' id="password"  name="password"> 
+				<label>Profile Image</label>
+				<br>
+				<input class="file-input" type="file" (change)="uploadFile($event)">
+
+				<div *ngIf="uploadPercent | async as pct">
+
+					<progress 
+							  [value]="pct" 
+							  max="100">        
+					</progress>
+				  
+					{{ pct | number }}%
+				  
+				  </div>				  
+				<a [href]="downloadURL | async">{{ downloadURL | async }}</a>
+				<br>
+				<a href="login"> Ya con cuenta? inicia sesión! </a>
+				<br>
+				<br>
+				<button [disabled]="!registerForm.valid" (click)='onSubmit()'> Submit</button>
+			  </form>
 		</div>
 	</div>
+
+	

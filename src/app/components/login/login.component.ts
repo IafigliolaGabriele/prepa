@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireDatabase, AngularFireObject, AngularFireList} from 'angularfire2/database';
 import { Observable } from 'rxjs';
-import {AuthService} from '../auth.service';
-
-class Book {
-  constructor(public title) { }
-}
+import {AuthService} from '../../services/auth.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AngularFireStorage, AngularFireUploadTask } from 'angularfire2/storage';
+import { AngularFirestore } from 'angularfire2/firestore';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -14,31 +14,51 @@ class Book {
 })
 export class LoginComponent implements OnInit {
 
-  public books: Observable<any[]>;
-  public bookRef:any;
-  constructor(private db: AngularFireDatabase, public authService: AuthService) { 
-    this.bookRef = db.list('users')
-    this.books = this.bookRef.valueChanges();
+  loginForm: FormGroup;
+  url: string;
+
+  constructor(
+    private db: AngularFireDatabase, 
+    private authService: AuthService,
+    private fb: FormBuilder,
+    private storage: AngularFireStorage,
+    private afd: AngularFirestore ) 
+  { 
+    this.loginForm = fb.group({
+      email: ['',[Validators.required,Validators.email]],
+      password: ['',[Validators.required]],
+    })
   }
 
-  onSubmit(data){
-    console.log("Submit",data);
-    this.authService.doLogin(data);
+  uploadPercent: Observable<number>;
+  downloadURL: Observable<string>;
+
+  uploadFile(event) {
+    const file = event.target.files[0];
+    const filePath = 'profile-picture';
+    const fileRef = this.storage.ref(filePath);
+    const task = this.storage.upload(filePath, file);
+
+    // observe percentage changes
+    this.uploadPercent = task.percentageChanges();
+    // get notified when the download URL is available
+    task.snapshotChanges().pipe(
+        finalize(() => this.downloadURL = fileRef.getDownloadURL() )
+     )
+    .subscribe()
+  }
+
+  onSubmit(){
+    console.log("Submit",this.loginForm.value);
+    this.authService.doLogin(this.loginForm.value);
   }
 
   ngOnInit() {
-   // this.AddBook()
+    this.storage.ref("caratulas/naruto_bijuu_by_thealm-d4qeg53.jpg").getDownloadURL().subscribe(data=>{
+      console.log("data",data)
+      this.url = data;
+    });
   }
 
-  public addBook(): void {
-    //let newBook = new Book('My book');
-    //this.bookRef.push(newBook);
-    this.books.forEach(book=>{
-      book.forEach(element => {
-        console.log("Element",element)
-      });
-    })
-    //this.books.push(newBook);
-}
 
 }

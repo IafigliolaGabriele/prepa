@@ -1,25 +1,29 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {RouterModule, Routes} from '@angular/router';
-import {LoginComponent} from './login/login.component';
-import {RegisterComponent} from './register/register.component';
-import { HomeComponent } from './home/home.component';
-import { ModelComponent } from './model/model.component';
-import { NavBarComponent} from './nav-bar/nav-bar.component';
-import { PersonComponent } from './person/person.component';
+import { RouterModule, Routes } from '@angular/router';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
+import { HomeComponent } from './components/home/home.component';
+import { ModelComponent } from './components/model/model.component';
+import { NavBarComponent } from './components/nav-bar/nav-bar.component';
+import { PersonComponent } from './components/person/person.component';
+import { MenuComponent } from './components/menu/menu.component';
+import { AuthGuard } from './services/auth.guard'
+const routes: Routes = [
 
-const routes: Routes =[
-  
-  {path: '', children: [
-    {path: 'home', component: HomeComponent},
-    {path: 'person/:id', component: PersonComponent},
-    {path: 'model', component: ModelComponent},
-  ],
-  component: NavBarComponent
+  {
+    path: '', children: [
+      { path: 'home', component: HomeComponent },
+      { path: 'person/:id', component: PersonComponent },
+      { path: 'model', component: ModelComponent },
+      { path: 'menu', component: MenuComponent },
+    ],
+    component: NavBarComponent,
+    canActivate: [AuthGuard]
   },
-  {path: 'login', component: LoginComponent},
-  {path: 'register', component: RegisterComponent},
-  {path: '**', component: LoginComponent}
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: '**', component: LoginComponent }
 ]
 
 @NgModule({

@@ -1,9 +1,9 @@
 import { Component, OnInit , TemplateRef} from '@angular/core';
-import {NetworkService} from '../network.service';
+import {NetworkService} from '../../services/network.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
-import { DatabaseService} from '../database.service';
-import { AuthService } from '../auth.service';
+import { DatabaseService} from '../../services/database.service';
+import { AuthService } from '../../services/auth.service';
 import * as firebase from 'firebase/app';
 import { AngularFireDatabase, AngularFireObject, AngularFireList} from 'angularfire2/database';
 import { Observable } from 'rxjs';
@@ -102,28 +102,25 @@ export class HomeComponent implements OnInit {
 
 
   filtrar(){
-    // this.filteredDb = this.db.filter(person=>{
-    //   if(person.gender.includes(this.texto)){
-    //     return person;
-    //   }
-    // })
+
   }
 
   onSubmit(value){
     console.log("Form",value)
-   // value["id"] = this.db.length;
     this.database.addPerson(value)
-    //this.db = this.database.getAllPersons()
-  //  this.filteredDb = this.database.getAllPersons()
-   // console.log("TUTOR",this.tutor)
   }
 
   ngOnInit() {
-    this.db = this.database.getPersonByGender("Female");
+    this.db = this.database.getAllPersons();
     this.db.subscribe(data=>{
+      console.log("data",data)
       this.filteredDb=[];
-      this.filteredDb = data;
+      data.forEach(element => {
+        console.log("ID",element.payload.doc.id)
+        this.filteredDb.push(element.payload.doc.data())
+      });
     })
+
     let newArray=[];
     console.log("Entre")
     // this.db.subscribe(data=>{

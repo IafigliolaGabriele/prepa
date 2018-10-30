@@ -1,4 +1,4 @@
-import { AppBootstrapModule } from './app-bootstrap.module';
+import { AppBootstrapModule } from '../app-bootstrap.module';
 
 describe('AppBootstrapModule', () => {
   let appBootstrapModule: AppBootstrapModule;
