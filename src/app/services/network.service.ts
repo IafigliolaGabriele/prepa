@@ -38,9 +38,8 @@ export class NetworkService {
     this.network = new Network({
       input: this.inputLayer,
       hidden: [this.hiddenLayer],
-      output: this.outputLayer
+      output: this. outputLayer
     })
-
   }
 
   trainingSet=

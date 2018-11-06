@@ -46,7 +46,6 @@ import { MenuComponent } from './components/menu/menu.component';
     BrowserModule,
     AppRoutingModule,
     AppBootstrapModule,
-    FormsModule,
     ReactiveFormsModule,
     //AngularFireModule.initializeApp(environment.firebase,"sapbe"),
     AngularFireDatabaseModule,

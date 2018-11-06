@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireObject, AngularFireList} from 'angularfire2/database';
 import {AngularFirestoreCollection, AngularFirestore} from 'angularfire2/firestore'
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { AngularFireStorage, AngularFireUploadTask } from 'angularfire2/storage';
+import { finalize } from 'rxjs/operators';
 
 
 class Person {
@@ -68,9 +71,15 @@ export class DatabaseService {
       "address":"1ET1kVe7YrVJgKXXpBULgHZjsG7LiJ7wh4"
     }
   ]
+
+  uploadPercent: Observable<number>;
+  downloadURL: Observable<string>;
   personRef: AngularFirestoreCollection<Person>
   foodRef: AngularFirestoreCollection<Food>
-  constructor(private aft: AngularFirestore) { 
+
+  constructor(
+    private aft: AngularFirestore,
+    private storage: AngularFireStorage) { 
     this.personRef = this.aft.collection('persons')
     this.foodRef = this.aft.collection('foods')
   }
@@ -92,8 +101,30 @@ export class DatabaseService {
   }
 
   addFood(food){
-    this.aft.collection('foods').add(food);
+    this.aft.collection('foods').add(food).then(data=>{
+      console.log("Comida agregada",data)
+    });
   }
+
+  storeImage(){
+
+  }
+
+  uploadFile(event) {
+    const file = event.target.files[0];
+    const filePath = 'Hamburguesa';
+    const fileRef = this.storage.ref(filePath);
+    const task = this.storage.upload(filePath, file);
+    console.log("entre", file)
+    // observe percentage changes
+    this.uploadPercent = task.percentageChanges();
+    // get notified when the download URL is available
+    task.snapshotChanges().pipe(
+        finalize(() => this.downloadURL = fileRef.getDownloadURL() )
+     )
+    .subscribe()
+  }
+
 
   addPerson(person){
     this.aft.collection('persons').add(person);

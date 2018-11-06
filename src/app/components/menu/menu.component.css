@@ -1,0 +1,14 @@
+.cards {  
+    display: flex;
+    flex-flow: wrap;
+    align-content: space-between;
+    align-items: center;
+    align-self: center;
+}
+
+.card {
+    width: 250;
+    height: 250;
+    margin: 15px;
+    padding: 15px; 
+}

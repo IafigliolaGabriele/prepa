@@ -35,10 +35,7 @@ export class MenuComponent implements OnInit {
   uploadPercent: Observable<number>;
   downloadURL: Observable<string>;
   foodForm: FormGroup;
-  public books: Observable<any[]>;
-  public tutor: Observable<any[]>;
-  public tutorRef:  AngularFireList<any[]>
-  public bookRef:any;
+  urlReady = false;
   constructor(
     private datab: AngularFireDatabase,
     private afd: AngularFirestore,
@@ -79,23 +76,36 @@ export class MenuComponent implements OnInit {
     this.database.addFood(this.foodForm.value)
   }
 
+  addFood(){
+    this.foodForm.value.image_url = this.downloadURL;
+    console.log("Form",this.foodForm.value)
+    this.database.addFood(this.foodForm.value)
+  }
+
   uploadFile(event) {
-    console.log("entre")
     const file = event.target.files[0];
-    const filePath = 'Hamburguesa';
+    const filePath = 'foodImages/'.concat(file.name);
     const fileRef = this.storage.ref(filePath);
     const task = this.storage.upload(filePath, file);
-
+    console.log("entre", file)
     // observe percentage changes
     this.uploadPercent = task.percentageChanges();
     // get notified when the download URL is available
     task.snapshotChanges().pipe(
-        finalize(() => this.downloadURL = fileRef.getDownloadURL() )
+        finalize(() => {
+          fileRef.getDownloadURL().subscribe(url=>{
+            this.downloadURL = url;  
+            console.log("URL",this.downloadURL)
+            this.urlReady = true;
+          })
+          ;
+        } )
      )
     .subscribe()
   }
 
   ngOnInit() {
+    console.log("[Entre]");
     this.db = this.database.getAllFoods();
     this.db.subscribe(data=>{
       console.log("data",data)

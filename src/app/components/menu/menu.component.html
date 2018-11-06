@@ -1,10 +1,12 @@
 <div class ="container">
-<div>
-  <accordion>
-      <accordion-group *ngFor="let person of filteredDb" [heading]="person.last_name.concat(',').concat(person.first_name)">
-        <app-person [person] = "person"> </app-person>
-      </accordion-group>
-  </accordion>
+<div class="cards">
+    <div class="card" *ngFor="let food of filteredDb">
+        <img class="card-img-top" src="{{food.image_url}}" alt="Card image cap">
+        <div class="card-body">
+          <h6>{{food.name}}</h6>
+          <p class="card-text"> {{food.description}} </p>
+        </div>
+    </div>
 </div>
   <div>
     <button type="button" class="btn btn-primary" (click)="openModal(template)">Open Modal</button>
@@ -27,8 +29,15 @@
           <br>
           <input class="file-input" type="file"  formControlName = "image_url" name="image_url" (change)="uploadFile($event)">
           <br>
+          <div *ngIf="uploadPercent | async as pct">
+            <progress 
+                  [value]="pct" 
+                  max="100">        
+            </progress>
+              {{ pct | number }}%           
+            </div>	
           <br>
-          <button (click)="onSubmit()" type="Submit" class="button-primary" [disabled]="!foodForm.valid" > Submit</button>
+          <button (click)="addFood()" type="Submit" class="button-primary" [disabled]="!foodForm.valid || !urlReady" > Submit</button>
         </form>
       </div>
     </ng-template>

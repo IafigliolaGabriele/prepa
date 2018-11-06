@@ -1,13 +1,9 @@
 import { Component, OnInit , TemplateRef} from '@angular/core';
-import {NetworkService} from '../../services/network.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { DatabaseService} from '../../services/database.service';
-import { AuthService } from '../../services/auth.service';
-import * as firebase from 'firebase/app';
-import { AngularFireDatabase, AngularFireObject, AngularFireList} from 'angularfire2/database';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 class Person {
   id: number;
@@ -28,86 +24,64 @@ export class HomeComponent implements OnInit {
   modalRef: BsModalRef;
   db: Observable<any[]>
   filteredDb: Array<Person>;
-  texto: string = "Texto";
+  personForm: FormGroup;
 
-  first_name: string;
-  last_name: string;
-  email: string;
-  gender: string;
-  address: string;
-  public books: Observable<any[]>;
-  public tutor: Observable<any[]>;
-  public tutorRef:  AngularFireList<any[]>
-  public bookRef:any;
-  constructor(
-    private datab: AngularFireDatabase,
-    private network: NetworkService,
+  constructor
+  (
     private modalService: BsModalService,
     private database: DatabaseService,
-    private authService: AuthService) {
-      let user = JSON.parse(localStorage.getItem("user"));
-      this.filteredDb=[]
-      // console.log("User",this.authService.getUser());
-      // console.log("User Key",this.authService.userKey)
-      // console.log("USER", user);
-      // this.bookRef = datab.list('users')
-      // this.books = this.bookRef.valueChanges();
-      // //this.tutorRef = this.datab.list('/users', ref => 
-      // //  ref.orderByKey().equalTo(user.user.uid)
-      // //);
-      // this.tutorRef = this.datab.list('/users/'+user.user.uid+'/students')
-      // this.tutor = this.tutorRef.valueChanges()
-      
-      // this.tutorRef.valueChanges().subscribe(data=>{
-      //   console.log("Suscribed:",data)
-      // });
+    private fb: FormBuilder
+  )
+  {
+    this.filteredDb=[];
+    this.personForm = this.fb.group({
+      first_name: ["",Validators.required],
+      last_name: ["",Validators.required],
+      email: ["",[Validators.required,Validators.email]],
+      gender: ["",Validators.required],
+      address: ["",Validators.required]
+    })
+  }
 
-    //network.entrenar();
-    //network.entrenar2();
-    //network.evaluate2(0);
-   }
+  getErrorMessage(key) {
+    return this.personForm.controls[key].hasError('required') ? 'You must enter a value' :
+           this.personForm.controls[key].hasError('email') ? 'Not a valid email' :
+            '';
+  }
 
+/**
+* Function to open an specific modal
+* @param {TemplateRef<any>} template The ref of the modal to be open
+* @author Gabriele Iafigliola
+*/
    openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
   }
 
-  async agregarPersona(){
-    //asignar tutor
-    //this.tutorRef.push(["14164021"])
+/**
+* Function to close an specific modal
+* @param {TemplateRef<any>} template The ref of the modal to be open
+* @author Gabriele Iafigliola
+*/
+closeModal() {
+  this.personForm.reset();
+  this.modalRef.hide();
+}
 
-    let newPerson = {
-      "id":6,
-      "first_name":this.texto,
-      "last_name":"Caramba",
-      "email":"aycaramba@netvibes.com",
-      "gender":"Male",
-      "address":"1ET1kVe7YrVJgKGXpBULgHZjsG7LiJ7wh4"
-    }
-    this.texto = newPerson.email;
-   // this.db.push(newPerson);
-    this.database.addPerson(newPerson);
-    this.db = await this.database.getAllPersons()
-   // this.filteredDb = await this.database.getAllPersons()
-    this.network.evaluate2(0);
-    this.network.export();
+/**
+* Function delete a person from the database
+* @author Gabriele Iafigliola
+*/  
+  deletePerson(){
+    this.database.deleteLastPerson();
   }
 
-  eliminarPersona(){
-    console.log("Texto",this.texto);
-    this.database.deletePersonByID(this.texto)
-    this.db = this.database.getAllPersons()
-  //  this.filteredDb = this.database.getAllPersons()
-
-  }
-
-
-  filtrar(){
-
-  }
-
-  onSubmit(value){
-    console.log("Form",value)
-    this.database.addPerson(value)
+/**
+* Function add a new person to the database
+* @author Gabriele Iafigliola
+*/
+  addPerson(){
+    this.database.addPerson(this.personForm.value);
   }
 
   ngOnInit() {
@@ -120,32 +94,6 @@ export class HomeComponent implements OnInit {
         this.filteredDb.push(element.payload.doc.data())
       });
     })
-
-    let newArray=[];
-    console.log("Entre")
-    // this.db.subscribe(data=>{
-    //   this.filteredDb=[];
-    //   data.map(data2=>{
-    //     console.log("Data2",data2.payload.doc.id)
-    //     console.log("Contenido",)
-    //     let person = data2.payload.doc.data() as Person;
-    //     this.filteredDb.push(person)
-    //   })
-    // })
-    // this.db.pipe(
-    //   map(items=>{
-    //     console.log("Item",items)
-    //     return items.map(a=>{
-    //       console.log("Data:",a.payload.val());
-    //       console.log("Key",a.payload.key)
-    //       this.filteredDb.push(a.payload.val());
-    //     })
-    //   })
-    // )
-    //this.filteredDb = this.db;
-    // this.db.forEach((person: Person)=>{
-    //   console.log("Person",person.first_name)
-    // })
   }
 
 }

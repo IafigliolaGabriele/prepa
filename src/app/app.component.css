@@ -1,9 +1,12 @@
-body, head, footer{
+body{
    background-color: rgba(125, 216, 216, 0.5);
+   height: 100%;
+   position: relative;
 }
 
 footer{
-    padding: 10px;
+    background-color: rgba(125, 216, 216, 0.5);
+    padding: 25px;
     text-align: center;
 }
 

@@ -8,7 +8,7 @@ import { ModelComponent } from './components/model/model.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { PersonComponent } from './components/person/person.component';
 import { MenuComponent } from './components/menu/menu.component';
-import { AuthGuard } from './services/auth.guard'
+import { AuthGuard } from './services/auth.guard';
 const routes: Routes = [
 
   {
