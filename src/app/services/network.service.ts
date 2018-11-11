@@ -98,7 +98,7 @@ export class NetworkService {
     {input: [1,1,0,1,1,1,0] , output:	[1]},
     {input: [0,1,0,0,1,0,0] , output:	[0]},
     {input: [0,0,0,1,1,0,0] , output:	[0]}
-    ]
+  ]
 //ftp://puceftp.puce.edu.ec/Facultades/CienciasEducacion/Maestria/CienciasEducacion/Econom%C3%ADa%20de%20la%20Educaci%C3%B3n/Molera_Caballero.pdf
 //https://scielo.conicyt.cl/scielo.php?script=sci_arttext&pid=S0718-33052016000400015
   entrenar(){
@@ -154,9 +154,9 @@ export class NetworkService {
     let training = await trainer.train(this.trainingSet2,{
       rate: 0.4,
       iterations: 5000,
-      error: .05,
-      //shuffle: true,
-      log: 10,
+      error: .01,
+      shuffle: true,
+      log: 100,
       cost: Trainer.cost.MSE 
     });
     console.log("Training:",training)

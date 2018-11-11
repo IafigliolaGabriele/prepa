@@ -62,4 +62,3 @@ const validationSet =
 
 // entrenamiento con 9
 
-
