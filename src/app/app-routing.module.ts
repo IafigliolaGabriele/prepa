@@ -10,7 +10,6 @@ import { PersonComponent } from './components/person/person.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { AuthGuard } from './services/auth.guard';
 const routes: Routes = [
-
   {
     path: '', children: [
       { path: 'home', component: HomeComponent },

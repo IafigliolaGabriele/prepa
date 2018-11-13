@@ -14,10 +14,14 @@ export class AuthGuard implements CanActivate {
 
   canActivate(): Promise<boolean>{
     return new Promise((resolve, reject) => {
-      this.authService.user.subscribe(user=>{
+      this.authService.user.subscribe(user => {
+        console.log("Entre",user)
         if(user){
+          console.log("User")
           return resolve(true)
         }else{
+          console.log("Not User")
+          this.router.navigate(['login'])
           return resolve(false)
         }
       })

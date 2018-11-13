@@ -28,7 +28,7 @@ export class AuthService {
           this.currentUser = this.afAuth.auth.currentUser;
           this.userKey = auth.uid;
         }else{
-          this.router.navigate(['login'])
+          //this.router.navigate(['login'])
         }
       });
     this.user = this.afAuth.authState
