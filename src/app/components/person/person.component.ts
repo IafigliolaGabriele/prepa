@@ -21,6 +21,5 @@ export class PersonComponent implements OnInit {
     console.log("person",this.person)
   }
   }
-
 }
 

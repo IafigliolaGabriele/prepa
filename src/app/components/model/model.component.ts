@@ -19,6 +19,10 @@ export class ModelComponent implements OnInit {
   modelCreated: boolean = false;
   currentInputs: Array<String> = ["apoyo","trabajo"]
   evaluation: number;
+  hidden: any;
+  output: any;
+  input: any;
+  
 
   train(config){
     let trainingReport = this.network.entrenar2();

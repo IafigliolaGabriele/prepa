@@ -1,15 +1,15 @@
 <div class ="container">
 <div class="cards">
     <div class="card" *ngFor="let food of filteredDb">
-        <img class="card-img-top" src="{{food.image_url}}" alt="Card image cap">
+        <img class="card-img-top" src="{{food.image_url}}" alt="{{food.name}}" >
         <div class="card-body">
-          <h6>{{food.name}}</h6>
+          <h5>{{food.name}}</h5>
           <p class="card-text"> {{food.description}} </p>
         </div>
     </div>
 </div>
   <div>
-    <button type="button" class="btn btn-primary" (click)="openModal(template)">Open Modal</button>
+    <button type="button" class="btn btn-primary" (click)="openModal(template)">Add food</button>
 
     <ng-template #template>
       <div class="modal-header">

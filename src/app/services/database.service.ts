@@ -82,6 +82,7 @@ export class DatabaseService {
     private storage: AngularFireStorage) { 
     this.personRef = this.aft.collection('persons')
     this.foodRef = this.aft.collection('foods')
+
   }
 
   getAllPersons(){
@@ -96,6 +97,14 @@ export class DatabaseService {
     return this.aft.collection('persons').doc(id).valueChanges()
   }
 
+  updatePersonByID(id,newData){
+    return this.aft.collection('persons').doc(id).update(newData);
+  }
+
+  deletePersonByID(id){
+    return this.aft.collection('persons').doc(id).delete();
+  }
+  
     getPersonByGender(gender){
       return this.aft.collection('persons', ref=>ref.where('gender','==',gender)).valueChanges()
   }
@@ -134,20 +143,20 @@ export class DatabaseService {
     this.db.pop()
   }
 
-  deletePersonByID(id){
-    console.log("ID",id)
-    let position=0;
-    for(let i=0;i<this.db.length;i++){
-      if(this.db[i].id==id){
-        position = i;
-      }
-    }
-    console.log("Position",position)
-    let firtspart = this.db.slice(0,position-1);
-    let secondpart = this.db.slice(position,this.db.length)
-    console.log("First part",firtspart);
-    console.log("Second part",secondpart)
-    this.db = firtspart.concat(secondpart);
-  }
+  // deletePersonByID(id){
+  //   console.log("ID",id)
+  //   let position=0;
+  //   for(let i=0;i<this.db.length;i++){
+  //     if(this.db[i].id==id){
+  //       position = i;
+  //     }
+  //   }
+  //   console.log("Position",position)
+  //   let firtspart = this.db.slice(0,position-1);
+  //   let secondpart = this.db.slice(position,this.db.length)
+  //   console.log("First part",firtspart);
+  //   console.log("Second part",secondpart)
+  //   this.db = firtspart.concat(secondpart);
+  // }
 
 }

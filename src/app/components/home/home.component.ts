@@ -2,7 +2,7 @@ import { Component, OnInit , TemplateRef} from '@angular/core';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { DatabaseService} from '../../services/database.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 
 class Person {
@@ -39,13 +39,14 @@ export class HomeComponent implements OnInit {
       last_name: ["",Validators.required],
       email: ["",[Validators.required,Validators.email]],
       gender: ["",Validators.required],
-      address: ["",Validators.required]
+      address: ["",Validators.required, Validators.pattern('[0-9]*')]
     })
   }
 
   getErrorMessage(key) {
     return this.personForm.controls[key].hasError('required') ? 'You must enter a value' :
            this.personForm.controls[key].hasError('email') ? 'Not a valid email' :
+           this.personForm.controls[key].hasError('pattern') ? 'ONLY NUMBERS' :
             '';
   }
 
@@ -58,6 +59,25 @@ export class HomeComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 
+/**
+* Function to open an specific modal
+* @param {TemplateRef<any>} template The ref of the modal to be open
+* @author Gabriele Iafigliola
+*/
+  openModalWithInfo(template: TemplateRef<any>, person) {
+    //this.personForm.controls['id'].setValue(person.id);
+    console.log("Person",person);
+    this.personForm = this.fb.group({
+      first_name: [person.first_name,Validators.required],
+      last_name: [person.last_name,Validators.required],
+      email: [person.email,[Validators.required,Validators.email]],
+      gender: [person.gender,Validators.required],
+      address: [person.address,Validators.required],
+      id: [person.id],
+    })
+    this.modalRef = this.modalService.show(template);
+  }
+  
 /**
 * Function to close an specific modal
 * @param {TemplateRef<any>} template The ref of the modal to be open
@@ -72,9 +92,33 @@ closeModal() {
 * Function delete a person from the database
 * @author Gabriele Iafigliola
 */  
-  deletePerson(){
-    this.database.deleteLastPerson();
+  deletePerson(person){
+    console.log("Person",person)
+    //this.database.deleteLastPerson();
+    let response = this.database.deletePersonByID(person.id);
+    response.then(response=>{
+      console.log("Success")
+    }).catch(err=>{
+      console.log("Failure",err)
+    })
   }
+
+/**
+* Function to update a person from the database
+* @author Gabriele Iafigliola
+*/  
+updatePerson(){
+  let id = this.personForm.value.id;
+  delete this.personForm.value.id
+  //this.database.deleteLastPerson();
+  console.log("Person -->",this.personForm.value);
+  let response = this.database.updatePersonByID(id,this.personForm.value);
+  response.then(response=>{
+    console.log("Success")
+  }).catch(err=>{
+    console.log("Failure",err)
+  })
+}
 
 /**
 * Function add a new person to the database
@@ -91,7 +135,9 @@ closeModal() {
       this.filteredDb=[];
       data.forEach(element => {
         console.log("ID",element.payload.doc.id)
-        this.filteredDb.push(element.payload.doc.data())
+        let person = element.payload.doc.data();
+        person['id'] = element.payload.doc.id;
+        this.filteredDb.push(person)
       });
     })
   }

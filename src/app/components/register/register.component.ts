@@ -11,7 +11,10 @@ import { AngularFireStorage } from 'angularfire2/storage';
 export class RegisterComponent implements OnInit {
 
   registerForm: FormGroup;
-
+  uploadPercent: any;
+  downloadURL: any;
+  uploadFile: any;
+  
   constructor(
     private authService: AuthService,
     private fb: FormBuilder

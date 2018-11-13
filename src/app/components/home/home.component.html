@@ -3,12 +3,13 @@
     <accordion>
         <accordion-group *ngFor="let person of filteredDb" [heading]="person.last_name.concat(',').concat(person.first_name)">
           <app-person [person] = "person"> </app-person>
+          <button type="button" class="btn btn-primary" (click)="deletePerson(person)">Delete Person</button>
+          <button type="button" class="btn btn-primary" (click)="openModalWithInfo(template,person)">Edit Person</button>
         </accordion-group>
     </accordion>
   </div>
   <div>
         <button type="button" class="btn btn-primary" (click)="openModal(template)">Create template modal</button>
- 
         <ng-template #template>
           <div class="modal-header">
             <h4 class="modal-title pull-left">Modal</h4>
@@ -34,7 +35,9 @@
               <label>Address</label>
               <input type="text" class="form-control" id="address"  formControlName='address' name="address">
               <p class="alert alert-warning" *ngIf="this.personForm.controls.address.touched && !personForm.controls.address.valid">{{getErrorMessage('address')}}</p>
-              <button type="button-primary" style="align-self: center !important" (click)="addPerson();closeModal()" [disabled]="!personForm.valid" > Submit</button>
+              <button type="button-primary" style="align-self: center !important" (click)="addPerson();closeModal()" [disabled]="!personForm.valid" > Create</button>
+              <button type="button-primary" style="align-self: center !important" (click)="updatePerson();closeModal()" [disabled]="!personForm.valid" > Update</button>
+           
             </form>
           </div>
         </ng-template>
