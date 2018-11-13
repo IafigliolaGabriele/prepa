@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {NetworkService} from '../../services/network.service';
 import { isGeneratedFile } from '@angular/compiler/src/aot/util';
+import * as jspdf from 'jspdf';  
+import html2canvas from 'html2canvas';  
 
 @Component({
   selector: 'app-model',

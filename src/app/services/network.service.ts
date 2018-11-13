@@ -21,14 +21,14 @@ export class NetworkService {
   tranier: Trainer;
 
   constructor() { 
-    this.inputLayer = new Layer(7);
-    this.hiddenLayer = new Layer(4);
+    this.inputLayer = new Layer(12);
+    this.hiddenLayer = new Layer(6);
     this.outputLayer = new Layer(1)
     this.inputLayer.project(this.hiddenLayer);
     this.hiddenLayer.project(this.outputLayer);
-    this.inputLayer.set({
-      squash: Neuron.squash.TANH
-    })
+    // this.inputLayer.set({
+    //   squash: Neuron.squash.TANH
+    // })
     this.hiddenLayer.set({
       squash: Neuron.squash.TANH
     })
@@ -49,55 +49,55 @@ export class NetworkService {
 
   trainingSet2=
   [
-    {input: [0,0,0,0,0,0,0] , output:[1]},
-    {input: [0,0,0,0,0,0,0] , output:[1]},
-    {input: [1,1,0,0,0,0,1] , output:[1]},
-    {input: [0,1,1,0,0,0,0] , output:[1]},
-    {input: [0,1,0,1,0,1,0] , output:[1]},
-    {input: [1,1,0,1,0,0,0] , output:[1]},
-    {input: [1,1,0,0,0,0,1] , output:[1]},
-    {input: [0,1,0,0,0,1,0] , output:[1]},
-    {input: [0,1,1,0,1,0,1] , output:[1]},
-    {input: [0,1,0,0,0,0,0] , output:[1]},
-    {input: [1,0,0,0,0,0,0] , output:[1]},
-    {input: [0,1,0,0,1,0,0] , output:[1]},
-    {input: [0,0,0,0,1,1,0] , output:[1]},
-    {input: [1,1,0,0,1,0,1] , output:[1]},
-    {input: [0,0,1,0,1,1,0] , output:[1]},
-    {input: [0,1,0,1,0,1,0] , output:[1]},
-    {input: [0,0,0,0,0,0,0] , output:[1]},
-    {input: [0,1,0,0,1,1,0] , output:[1]},
-    {input: [0,0,0,0,0,1,0] , output:[1]},
-    {input: [0,1,0,0,0,0,0] , output:[1]},
-    {input: [1,1,1,0,0,1,0] , output:[1]},
-    {input: [1,0,1,0,0,0,0] , output:[1]},
-    {input: [1,1,0,0,0,0,0] , output:[1]},
-    {input: [1,0,1,0,0,1,1] , output:[1]},
-    {input: [0,1,1,0,1,0,0] , output:[1]},
-    {input: [0,1,0,0,0,0,0] , output:[1]},
-    {input: [1,0,0,0,0,0,1] , output:[1]},
-    {input: [1,1,0,0,0,0,1] , output:[1]},
-    {input: [1,1,0,1,0,1,1] , output:[1]},
-    {input: [1,1,0,1,1,0,1] , output:[1]},
-    {input: [0,1,0,0,0,0,0] , output:[0]},
-    {input: [0,0,0,0,0,1,0] , output:[0]},
-    {input: [1,1,0,0,0,0,0] , output:[0]},
-    {input: [1,1,0,1,0,0,0] , output:[0]},
-    {input: [0,1,0,0,0,0,0] , output:[0]},
-    {input: [1,0,0,0,1,0,0] , output:[0]} 
+    {input: [0,0,0,0,0,0,0,1,0,1,1,1] , output:[1]},
+    {input: [0,0,0,0,0,0,0,1,1,0,1,1] , output:[1]},
+    {input: [1,1,0,0,0,0,1,1,0,1,1,1] , output:[1]},
+    {input: [0,1,1,0,0,0,0,0,1,0,0,1] , output:[1]},
+    {input: [0,1,0,1,0,1,0,0,1,1,1,1] , output:[1]},
+    {input: [1,1,0,1,0,0,0,1,1,0,1,1] , output:[1]},
+    {input: [1,1,0,0,0,0,1,1,0,1,1,1] , output:[1]},
+    {input: [0,1,0,0,0,1,0,1,0,1,0,1] , output:[1]},
+    {input: [0,1,1,0,1,0,1,1,1,0,1,1] , output:[1]},
+    {input: [0,1,0,0,0,0,0,1,0,1,1,1] , output:[1]},
+    {input: [1,0,0,0,0,0,0,0,1,0,0,0] , output:[1]},
+    {input: [0,1,0,0,1,0,0,0,1,1,0,1] , output:[1]},
+    {input: [0,0,0,0,1,1,0,0,0,1,1,1] , output:[1]},
+    {input: [1,1,0,0,1,0,1,1,0,0,0,0] , output:[1]},
+    {input: [0,0,1,0,1,1,0,1,0,1,1,1] , output:[1]},
+    {input: [0,1,0,1,0,1,0,1,1,0,0,0] , output:[1]},
+    {input: [0,0,0,0,0,0,0,0,1,1,1,1] , output:[1]},
+    {input: [0,1,0,0,1,1,0,1,0,1,0,1] , output:[1]},
+    {input: [0,0,0,0,0,1,0,0,1,1,1,1] , output:[1]},
+    {input: [0,1,0,0,0,0,0,1,0,1,1,1] , output:[1]},
+    {input: [1,1,1,0,0,1,0,0,1,0,1,0] , output:[1]},
+    {input: [1,0,1,0,0,0,0,1,0,1,1,1] , output:[1]},
+    {input: [1,1,0,0,0,0,0,1,0,1,0,1] , output:[1]},
+    {input: [1,0,1,0,0,1,1,1,1,0,1,1] , output:[1]},
+    {input: [0,1,1,0,1,0,0,0,0,1,1,1] , output:[1]},
+    {input: [0,1,0,0,0,0,0,0,1,1,1,1] , output:[1]},
+    {input: [1,0,0,0,0,0,1,1,1,1,0,1] , output:[1]},
+    {input: [1,1,0,0,0,0,1,1,0,1,1,1] , output:[1]},
+    {input: [1,1,0,1,0,1,1,1,1,1,1,0] , output:[1]},
+    {input: [1,1,0,1,1,0,1,1,1,0,1,1] , output:[1]},
+    {input: [0,1,0,0,0,0,0,1,0,1,1,1] , output:[0]},
+    {input: [0,0,0,0,0,1,0,1,1,1,1,1] , output:[0]},
+    {input: [1,1,0,0,0,0,0,0,1,1,1,1] , output:[0]},
+    {input: [1,1,0,1,0,0,0,1,1,1,0,1] , output:[0]},
+    {input: [0,1,0,0,0,0,0,1,0,1,1,1] , output:[0]},
+    {input: [1,0,0,0,1,0,0,1,1,1,0,1] , output:[0]} 
     ]
       
   validationSet = 
   [
-    {input: [1,0,0,0,0,0,0] , output:	[1]},
-    {input: [1,1,1,0,0,1,0] , output:	[1]},
-    {input: [0,1,1,1,0,0,0] , output:	[1]},
-    {input: [1,0,1,0,0,1,1] , output:	[1]},
-    {input: [0,1,0,0,1,1,1] , output:	[1]},
-    {input: [1,1,0,1,0,1,1] , output:	[1]},
-    {input: [1,1,0,1,1,1,0] , output:	[1]},
-    {input: [0,1,0,0,1,0,0] , output:	[0]},
-    {input: [0,0,0,1,1,0,0] , output:	[0]}
+    {input: [1,0,0,0,0,0,0,1,0,1,0,1] , output:	[1]},
+    {input: [1,1,1,0,0,1,0,1,1,0,1,0] , output:	[1]},
+    {input: [0,1,1,1,0,0,0,1,0,0,1,0] , output:	[1]},
+    {input: [1,0,1,0,0,1,1,0,0,1,1,1] , output:	[1]},
+    {input: [0,1,0,0,1,1,1,1,1,0,0,1] , output:	[1]},
+    {input: [1,1,0,1,0,1,1,0,0,0,0,1] , output:	[1]},
+    {input: [1,1,0,1,1,1,0,1,1,0,1,1] , output:	[1]},
+    {input: [0,1,0,0,1,0,0,1,0,0,0,1] , output:	[0]},
+    {input: [0,0,0,1,1,0,0,1,0,1,0,1] , output:	[0]}
   ]
 //ftp://puceftp.puce.edu.ec/Facultades/CienciasEducacion/Maestria/CienciasEducacion/Econom%C3%ADa%20de%20la%20Educaci%C3%B3n/Molera_Caballero.pdf
 //https://scielo.conicyt.cl/scielo.php?script=sci_arttext&pid=S0718-33052016000400015
@@ -152,9 +152,9 @@ export class NetworkService {
     let trainer = new Trainer(this.network)
     console.log("Training ...");
     let training = await trainer.train(this.trainingSet2,{
-      rate: 0.4,
+      rate: 0.1,
       iterations: 5000,
-      error: .01,
+      error: .05,
       shuffle: true,
       log: 100,
       cost: Trainer.cost.MSE 
