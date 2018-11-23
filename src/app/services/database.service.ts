@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AngularFireStorage, AngularFireUploadTask } from 'angularfire2/storage';
 import { finalize } from 'rxjs/operators';
+import { AuthService } from './auth.service';
 
 
 class Person {
@@ -21,6 +22,7 @@ class Food {
   name: string;
   description: string;
   image_url: string;
+  available: boolean;
 }
 
 @Injectable({
@@ -28,61 +30,21 @@ class Food {
 })
 export class DatabaseService {
 
-  db: Array<Person> = 
-  [
-    {
-      "id":1,
-      "first_name":"Mariel",
-      "last_name":"Trees",
-      "email":"mtrees0@redcross.org",
-      "gender":"Female",
-      "address":"13TNr7GNKdNjv6zv42K25tcD2WViPmeB9N"
-    },
-    {
-      "id":2,
-      "first_name":"Eran",
-      "last_name":"Delve",
-      "email":"edelve1@prweb.com",
-      "gender":"Female",
-      "address":"1PNr1N1p9GzzZAacwSXL9YRrMZJ42HCMv9"
-    },
-    {
-      "id":3,
-      "first_name":"Debbie",
-      "last_name":"Affuso",
-      "email":"daffuso2@pagesperso-orange.fr",
-      "gender":"Female",
-      "address":"1DLeeWrkSPHhC5itgAbgTdLbsQQhQhsKyC"
-    },
-    {
-      "id":4,
-      "first_name":"Janelle",
-      "last_name":"Enriques",
-      "email":"jenriques3@moonfruit.com",
-      "gender":"Female",
-      "address":"1PFxbFih62gv2dH2MhjAxCfKdzWTk1rpDD"
-    },
-    {
-      "id":5,
-      "first_name":"Addy",
-      "last_name":"Sharp",
-      "email":"asharp4@netvibes.com",
-      "gender":"Male",
-      "address":"1ET1kVe7YrVJgKXXpBULgHZjsG7LiJ7wh4"
-    }
-  ]
-
   uploadPercent: Observable<number>;
   downloadURL: Observable<string>;
   personRef: AngularFirestoreCollection<Person>
   foodRef: AngularFirestoreCollection<Food>
-
+  orderRef: AngularFirestoreCollection<Food>
+  ingredientsRef: AngularFirestoreCollection<Food>
+  
   constructor(
     private aft: AngularFirestore,
-    private storage: AngularFireStorage) { 
+    private storage: AngularFireStorage,
+    private auth: AuthService) { 
     this.personRef = this.aft.collection('persons')
     this.foodRef = this.aft.collection('foods')
-
+    this.orderRef = this.aft.collection('orders')
+    this.ingredientsRef = this.aft.collection('ingredients')
   }
 
   getAllPersons(){
@@ -97,22 +59,54 @@ export class DatabaseService {
     return this.aft.collection('persons').doc(id).valueChanges()
   }
 
+  getFoodByID(id){
+    return this.aft.collection('foods').doc(id).valueChanges()
+  }
+
   updatePersonByID(id,newData){
     return this.aft.collection('persons').doc(id).update(newData);
+  }
+
+  updateFoodByID(id,newData){
+    return this.aft.collection('foods').doc(id).update(newData);
   }
 
   deletePersonByID(id){
     return this.aft.collection('persons').doc(id).delete();
   }
+
+  deleteFoodByID(id){
+    return this.aft.collection('foods').doc(id).delete();
+  }
   
-    getPersonByGender(gender){
-      return this.aft.collection('persons', ref=>ref.where('gender','==',gender)).valueChanges()
+  getPersonByGender(gender){
+    return this.aft.collection('persons', ref=>ref.where('gender','==',gender)).valueChanges()
+  }
+
+  getAvailableFoods(){
+    return this.aft.collection('foods', ref=>ref.where('available','==',true)).snapshotChanges()
   }
 
   addFood(food){
     this.aft.collection('foods').add(food).then(data=>{
       console.log("Comida agregada",data)
     });
+  }
+
+  addOrder(orderInfo){
+    orderInfo.userKey = this.auth.userKey;
+    this.aft.collection('orders').add(orderInfo).then(data=>{
+      console.log("Orden agregada",data)
+    });
+  }
+
+  getUserOrders(){
+     return this.aft.collection('orders', ref=>ref.where('userKey','==',this.auth.userKey)).snapshotChanges()
+  }
+
+  getIngredients(foodID){
+    console.log("FoodID",foodID)
+    return this.aft.collection('ingredients', ref=>ref.where(foodID,"==",foodID)).snapshotChanges()
   }
 
   storeImage(){
@@ -139,9 +133,6 @@ export class DatabaseService {
     this.aft.collection('persons').add(person);
   }
 
-  deleteLastPerson(){
-    this.db.pop()
-  }
 
   // deletePersonByID(id){
   //   console.log("ID",id)

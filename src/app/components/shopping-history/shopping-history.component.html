@@ -1,0 +1,16 @@
+<div class ="container">  
+  <div>
+    <accordion>
+        <accordion-group *ngFor="let order of filteredDb" [heading]="order.resume">
+          <h5>Fecha de : {{order.date}}</h5>
+          <div class="resume" *ngFor="let food of order.cart">
+              <h5>  Nombre: {{food.name}}</h5>
+              <p>   Descripcion: {{food.description}}</p>
+              <p>   price: {{food.price}}</p>
+          </div>
+          <p>Order Total: {{order.total}}</p>
+          <button type="button" class="btn btn-primary" (click)="buildCart(order.cart)">Build Cart From This Order </button>
+         </accordion-group>
+    </accordion>
+  </div>
+</div>

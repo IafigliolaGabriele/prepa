@@ -5,12 +5,26 @@
         <div class="card-body">
           <h5>{{food.name}}</h5>
           <p class="card-text"> {{food.description}} </p>
+          <p class="card-text"> Price: {{food.price}} </p>
+          <h6> Extras </h6>
+          <div *ngFor="let ingredient of food.ingredients"> 
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary" (click)="removeIngredient(food.id,ingredient)">-</button>
+                    <button type="button" class="btn btn-primary" [disabled]="true">{{ingredient.name}} : {{ingredient.price}}$: {{ingredient.quantity}}</button>
+                    <button type="button" class="btn btn-primary" (click)="addIngredient(food.id,ingredient)">+</button>
+                </div>
+          </div>
         </div>
-    </div>
+        <div class="btn-group">
+          <button type="button" class="btn btn-primary" (click)="openModalWithInfo(template,food)">Update food</button>
+          <button type="button" class="btn btn-primary" (click)="addToCart(food)">Add To Cart</button>
+        </div>
+      </div>
 </div>
   <div>
     <button type="button" class="btn btn-primary" (click)="openModal(template)">Add food</button>
-
+    <button type="button" class="btn btn-primary" (click)="seeCart()">See Cart</button>
+    <button type="button" class="btn btn-primary" (click)="orderCart()">Order Actual Cart</button>
     <ng-template #template>
       <div class="modal-header">
         <h4 class="modal-title pull-left">Create Food</h4>
@@ -25,9 +39,14 @@
           <input type="text" class="form-control" id="name"   formControlName = "name"  name="name"> 
           <label>Description</label>
           <input type="text" class="form-control" id="description"  formControlName = "description" name="description">
+          <label>Disponibilidad</label>
+          <select type="text" class="form-control" id="available"  formControlName = "available" name="available">
+            <option value="true">Available</option>
+            <option value="false">Unavailable</option>
+          </select>
           <label>Image</label>
           <br>
-          <input class="file-input" type="file"  formControlName = "image_url" name="image_url" (change)="uploadFile($event)">
+          <input class="file-input" type="file"  formControlName = "image_url" name="image_url" (change)="uploadFile($event)" *ngIf="!update">
           <br>
           <div *ngIf="uploadPercent | async as pct">
             <progress 
@@ -37,7 +56,8 @@
               {{ pct | number }}%           
             </div>	
           <br>
-          <button (click)="addFood()" type="Submit" class="button-primary" [disabled]="!foodForm.valid || !urlReady" > Submit</button>
+          <button *ngIf="!update" (click)="addFood();closeModal()" type="Submit" class="button-primary" [disabled]="!foodForm.valid || (!urlReady)"> Add</button>
+          <button *ngIf="update" (click)="updateFood();closeModal()" type="Submit" class="button-primary" [disabled]="!foodForm.valid"> Update</button>
         </form>
       </div>
     </ng-template>

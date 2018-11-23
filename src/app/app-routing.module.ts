@@ -9,6 +9,7 @@ import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { PersonComponent } from './components/person/person.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { AuthGuard } from './services/auth.guard';
+import { ShoppingHistoryComponent } from './components/shopping-history/shopping-history.component';
 const routes: Routes = [
   {
     path: '', children: [
@@ -16,6 +17,7 @@ const routes: Routes = [
       { path: 'person/:id', component: PersonComponent },
       { path: 'model', component: ModelComponent },
       { path: 'menu', component: MenuComponent },
+      { path: 'shoppingHistory', component: ShoppingHistoryComponent },
     ],
     component: NavBarComponent,
     canActivate: [AuthGuard]

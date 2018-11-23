@@ -26,6 +26,7 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { DropZoneDirective } from './drop-zone.directive';
 import { MenuComponent } from './components/menu/menu.component';
+import { ShoppingHistoryComponent } from './components/shopping-history/shopping-history.component';
 
 
 
@@ -39,7 +40,8 @@ import { MenuComponent } from './components/menu/menu.component';
     ModelComponent,
     NavBarComponent,
     DropZoneDirective,
-    MenuComponent
+    MenuComponent,
+    ShoppingHistoryComponent
   ],
   imports: [
     FormsModule,

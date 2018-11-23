@@ -60,7 +60,7 @@ export class HomeComponent implements OnInit {
   }
 
 /**
-* Function to open an specific modal
+* Function to open an specific modal with the info pre charged
 * @param {TemplateRef<any>} template The ref of the modal to be open
 * @author Gabriele Iafigliola
 */
