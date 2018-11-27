@@ -10,6 +10,8 @@ import { PersonComponent } from './components/person/person.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { AuthGuard } from './services/auth.guard';
 import { ShoppingHistoryComponent } from './components/shopping-history/shopping-history.component';
+import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.component';
+
 const routes: Routes = [
   {
     path: '', children: [
@@ -18,6 +20,7 @@ const routes: Routes = [
       { path: 'model', component: ModelComponent },
       { path: 'menu', component: MenuComponent },
       { path: 'shoppingHistory', component: ShoppingHistoryComponent },
+      { path: 'shoppingCart', component: ShoppingCartComponent },
     ],
     component: NavBarComponent,
     canActivate: [AuthGuard]

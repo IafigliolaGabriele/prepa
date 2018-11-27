@@ -27,6 +27,7 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import { DropZoneDirective } from './drop-zone.directive';
 import { MenuComponent } from './components/menu/menu.component';
 import { ShoppingHistoryComponent } from './components/shopping-history/shopping-history.component';
+import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.component';
 
 
 
@@ -41,7 +42,8 @@ import { ShoppingHistoryComponent } from './components/shopping-history/shopping
     NavBarComponent,
     DropZoneDirective,
     MenuComponent,
-    ShoppingHistoryComponent
+    ShoppingHistoryComponent,
+    ShoppingCartComponent
   ],
   imports: [
     FormsModule,

@@ -32,6 +32,7 @@
     "pdfmake": "^0.1.39",
     "rxjs": "~6.2.0",
     "synaptic": "^1.1.4",
+    "typestyle": "^2.0.1",
     "zone.js": "~0.8.26"
   },
   "devDependencies": {

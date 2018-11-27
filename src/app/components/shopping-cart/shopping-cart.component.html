@@ -1,0 +1,35 @@
+<div class ="container">
+    <div class="buttonGroup" >
+        <button type="button" class="btn actions btn-secondary" (click)="makeResponsive()">Responsive View</button>    
+        <button type="button" class="btn actions btn-secondary" (click)="orderCart()">Confirm Order</button>
+      </div>
+     <div class="foodCards">
+      <div class="foodCard"  *ngFor="let food of filteredDb">
+        <div>
+            <h5> {{food.name}} </h5>
+            <ul>
+                <li>Description: {{food.description}}</li> 
+                <li>Price: {{food.price}}</li>
+            </ul>
+        </div>
+        <div class="{{className}}">
+            <img class="{{classImage}}" src="{{food.image_url}}" alt="{{food.name}}" >
+            <div class="{{className2}}" *ngIf="food.ingredients.length > 0">
+              <h5> Extras Disponibles </h5>
+              <div *ngFor="let ingredient of food.ingredients"> 
+                    <div class="buttonGroup" >
+                        <button type="button" class="btn btn-secondary " (click)="removeIngredient(food.id,ingredient)">-</button>
+                        <button type="button" class="btn btn-primary" [disabled]="true">{{ingredient.name}} : {{ingredient.price}}$: {{ingredient.quantity}}</button>
+                        <button type="button" class="btn btn-secondary" (click)="addIngredient(food.id,ingredient)">+</button>
+                    </div>
+              </div>
+            </div>
+            <div class="noExtras" *ngIf="food.ingredients.length == 0">
+                <h4>This Product dosn't have any extra available</h4>
+            </div>
+           </div>
+      </div>       
+    </div>
+</div>
+    
+    

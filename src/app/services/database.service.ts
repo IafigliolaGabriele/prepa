@@ -7,6 +7,11 @@ import { AngularFireStorage, AngularFireUploadTask } from 'angularfire2/storage'
 import { finalize } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 
+class User {
+  email: string;
+  username: string;
+  admin: boolean;
+} 
 
 class Person {
   id: number;
@@ -36,6 +41,7 @@ export class DatabaseService {
   foodRef: AngularFirestoreCollection<Food>
   orderRef: AngularFirestoreCollection<Food>
   ingredientsRef: AngularFirestoreCollection<Food>
+  usersRef: AngularFirestoreCollection<User>
   
   constructor(
     private aft: AngularFirestore,
@@ -45,6 +51,7 @@ export class DatabaseService {
     this.foodRef = this.aft.collection('foods')
     this.orderRef = this.aft.collection('orders')
     this.ingredientsRef = this.aft.collection('ingredients')
+    this.usersRef = this.aft.collection('users')
   }
 
   getAllPersons(){
@@ -53,7 +60,15 @@ export class DatabaseService {
 
   getAllFoods(){
     return this.foodRef.snapshotChanges();
- }
+  }
+
+  getAllUsers(){
+    return this.personRef.snapshotChanges();
+  }
+
+  updateUserByID(id,newData){
+    return this.aft.collection('users').doc(id).update(newData);
+  }
 
   getPersonByID(id){
     return this.aft.collection('persons').doc(id).valueChanges()

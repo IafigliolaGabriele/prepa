@@ -12,7 +12,7 @@ import { map } from 'rxjs/operators';
 import { AngularFireStorage, AngularFireUploadTask } from 'angularfire2/storage';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { finalize } from 'rxjs/operators';
-
+import {style} from 'typestyle';
 
 class Food {
   id?: string;
@@ -22,18 +22,28 @@ class Food {
   price: number;
 }
 
-@Component({
-  selector: 'app-menu',
-  templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.css']
-})
-export class MenuComponent implements OnInit {
+const insideFood = style({
+  display: 'flex',
+  border: '10px dotted blue',
+  flexDirection: 'column',
+});
 
-  
+@Component({
+  selector: 'app-shopping-cart',
+  templateUrl: './shopping-cart.component.html',
+  styleUrls: ['./shopping-cart.component.css']
+})
+export class ShoppingCartComponent implements OnInit {
+
   classImage = 'foodImage'
   className = 'insideFood';
   className2 = 'foodContent';
   insideFood2 = 'insideFood';
+  insideFood = style({
+    display: 'flex',
+    border: '10px dotted blue',
+    flexDirection: 'column',
+  });
   modalRef: BsModalRef;
   db: Observable<any[]>
   filteredDb: Array<Food>;
@@ -124,43 +134,6 @@ closeModal() {
     this.database.addFood(this.foodForm.value)
   }
 
-  makeResponsive(){
-    if(this.className=='insideFood'){
-      this.className = 'responsive-insideFood';
-      this.className2 = 'responsive-foodContent';
-      this.classImage = 'responsive-foodImage'
-    }else{
-      this.className = 'insideFood';
-      this.className2 = 'foodContent';
-      this.classImage = 'foodImage'
-    }
-  }
-
-  isAdded(item){
-    let added= false;
-    let userInfo = JSON.parse(localStorage.getItem("userInfo"));
-    if(userInfo){
-      userInfo.cart.forEach((food:Food) => {
-        if(food.id == item.id){
-          added =true;
-        }
-    });
-    return added;
-    }else{
-      return false;
-    }
-  }
-
-  removeFromCart(food){
-    let userInfo = JSON.parse(localStorage.getItem("userInfo"));
-    let foodIndex = userInfo.cart.findIndex(data=>{
-      if(data.id==food.id){
-        return data;
-      }
-    })
-    let prueba1 = userInfo.cart.splice(foodIndex,1);
-    localStorage.setItem("userInfo",JSON.stringify(userInfo));
-  }
 
   orderCart(){
     let userInfo = JSON.parse(localStorage.getItem("userInfo"));
@@ -292,31 +265,44 @@ closeModal() {
     .subscribe()
   }
 
+  makeResponsive(){
+    if(this.className=='insideFood'){
+      this.className = 'responsive-insideFood';
+      this.className2 = 'responsive-foodContent';
+      this.classImage = 'responsive-foodImage'
+    }else{
+      this.className = 'insideFood';
+      this.className2 = 'foodContent';
+      this.classImage = 'foodImage'
+    }
+  }
+
+
   ngOnInit() {
     console.log("[Entre]");
+    // let list = document.getElementsByClassName("insideFood");
+    // for (let item of list) {
+    //     console.log(item.id);
+    // }
     this.db = this.database.getAllFoods();
-    this.db.subscribe(data=>{
-      console.log("data",data)
-      this.filteredDb=[];
-      data.forEach(element => {
-        let newFood = element.payload.doc.data();
-        newFood['id']=element.payload.doc.id;
-        newFood['ingredients'] = [];
-        this.database.getIngredients(element.payload.doc.id).subscribe(ingredients=>{
-          console.log("Loading...",ingredients)
-          ingredients.forEach(ingre=>{
-            console.log("Ingre")
-            let newIngredient = ingre.payload.doc.data();
-            newIngredient["id"] = ingre.payload.doc.id;
-            newIngredient["quantity"] = 0;
-            newFood['ingredients'].push(newIngredient);
-          })
-          this.filteredDb.push(newFood)
-        })
-      });
+    let userInfo = JSON.parse(localStorage.getItem('userInfo'))
+    this.db.subscribe(products=>{
+      products.forEach(product =>{
+        for(let i = 0; i< userInfo.cart.length; i++){
+          console.log("ID",product.payload.doc.id)
+          if(userInfo.cart[i].id == product.payload.doc.id){
+            userInfo.cart[i].description= product.payload.doc.data().description;
+            userInfo.cart[i].name = product.payload.doc.data().name;
+            userInfo.cart[i].price = product.payload.doc.data().price;
+          }
+        }
+      })
+       this.filteredDb = [];
+       this.filteredDb = userInfo.cart;
+       console.log("DBFiltrada2",this.filteredDb);
     })
-    let newArray=[];
-    console.log("Entre")
+
+    console.log("DBFiltrada",this.filteredDb);
   }
 
 }

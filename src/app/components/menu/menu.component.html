@@ -1,30 +1,47 @@
 <div class ="container">
-<div class="cards">
-    <div class="card" *ngFor="let food of filteredDb">
-        <img class="card-img-top" src="{{food.image_url}}" alt="{{food.name}}" >
-        <div class="card-body">
-          <h5>{{food.name}}</h5>
-          <p class="card-text"> {{food.description}} </p>
-          <p class="card-text"> Price: {{food.price}} </p>
-          <h6> Extras </h6>
-          <div *ngFor="let ingredient of food.ingredients"> 
-                <div class="btn-group">
-                    <button type="button" class="btn btn-primary" (click)="removeIngredient(food.id,ingredient)">-</button>
-                    <button type="button" class="btn btn-primary" [disabled]="true">{{ingredient.name}} : {{ingredient.price}}$: {{ingredient.quantity}}</button>
-                    <button type="button" class="btn btn-primary" (click)="addIngredient(food.id,ingredient)">+</button>
-                </div>
-          </div>
-        </div>
-        <div class="btn-group">
-          <button type="button" class="btn btn-primary" (click)="openModalWithInfo(template,food)">Update food</button>
-          <button type="button" class="btn btn-primary" (click)="addToCart(food)">Add To Cart</button>
-        </div>
+    <div class="buttonGroup" >
+        <button type="button" class="btn actions btn-secondary" (click)="makeResponsive()">Responsive View</button>    
+        <button type="button" class="btn actions btn-secondary" (click)="orderCart()">Confirm Order</button>
       </div>
-</div>
+     <div class="foodCards">
+      <div class="foodCard"  *ngFor="let food of filteredDb">
+        <div class="{{className}}">
+            <img class="{{classImage}}" src="{{food.image_url}}" alt="{{food.name}}" >
+            <div class="{{className2}}" *ngIf="food.ingredients.length > 0">
+              <h5> {{food.name}} </h5>
+                <ul>
+                    <li>Description: {{food.description}}</li> 
+                    <li>Price: {{food.price}}</li>
+                </ul>
+              <h5> Extras Disponibles </h5>
+              <ul>
+              <li *ngFor="let ingredient of food.ingredients"> 
+                {{ingredient.name}}: {{ingredient.price}}$
+              </li>
+              </ul>
+            </div>
+            <div class="noExtras" *ngIf="food.ingredients.length == 0">
+                <h5> {{food.name}} </h5>
+                <ul>
+                    <li>Description: {{food.description}}</li> 
+                    <li>Price: {{food.price}}</li>
+                </ul>
+                <h5> Extras Disponibles </h5>
+                <h4>This Product dosn't have any extra available</h4>
+            </div>
+        </div>
+        <div class="buttonGroup">
+          <button type="button" class="btn action btn-secondary" (click)="addToCart(food)">Add To Cart</button>
+          <button *ngIf="isAdded(food)" type="button" class="btn action btn-secondary" (click)="removeFromCart(food)">Remove From Cart</button>
+        </div>
+      </div>       
+    </div>
   <div>
-    <button type="button" class="btn btn-primary" (click)="openModal(template)">Add food</button>
-    <button type="button" class="btn btn-primary" (click)="seeCart()">See Cart</button>
-    <button type="button" class="btn btn-primary" (click)="orderCart()">Order Actual Cart</button>
+    <div class="buttonGroup">
+      <button type="button" class="btn actions btn-secondary" (click)="openModal(template)">Add food</button>
+      <button type="button" class="btn actions btn-primary" (click)="seeCart()">See Cart</button>
+      <button type="button" class="btn actions btn-secondary" (click)="orderCart()">Order Actual Cart</button>
+    </div>
     <ng-template #template>
       <div class="modal-header">
         <h4 class="modal-title pull-left">Create Food</h4>
