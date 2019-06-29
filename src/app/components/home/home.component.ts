@@ -25,7 +25,7 @@ export class HomeComponent implements OnInit {
   db: Observable<any[]>
   filteredDb: Array<Person>;
   personForm: FormGroup;
-
+  currentUser: any;
   constructor
   (
     private modalService: BsModalService,
@@ -120,6 +120,11 @@ updatePerson(){
   })
 }
 
+makeAdmin(person){
+  person.admin = true;
+  this.database.updateUserByID(person.id,person)
+}
+
 /**
 * Function add a new person to the database
 * @author Gabriele Iafigliola
@@ -129,12 +134,24 @@ updatePerson(){
   }
 
   ngOnInit() {
-    this.db = this.database.getAllPersons();
+    this.db = this.database.getAllUsers();
+    this.database.getUserByID("ziWdhhIXQPBTwdEoZaE6").subscribe(user=>{
+      console.log("USERBYID",user)
+        //  user['admin'] = true;
+        //  this.database.updateUserByID("ziWdhhIXQPBTwdEoZaE6",user).then(data=>{
+        //    console.log("Success",data)
+        //  })
+    })
+    this.database.getCurrentUser().subscribe(user=>{
+      console.log("USer",user)
+      this.currentUser = user;
+    })
     this.db.subscribe(data=>{
       console.log("data",data)
       this.filteredDb=[];
       data.forEach(element => {
         console.log("ID",element.payload.doc.id)
+        console.log("USER",element.payload.doc.data())
         let person = element.payload.doc.data();
         person['id'] = element.payload.doc.id;
         this.filteredDb.push(person)

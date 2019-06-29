@@ -53,7 +53,7 @@ import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.
     ReactiveFormsModule,
     //AngularFireModule.initializeApp(environment.firebase,"sapbe"),
     AngularFireDatabaseModule,
-    AngularFireModule.initializeApp(environment.config),
+    AngularFireModule.initializeApp(environment.config6),
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features
     AngularFireStorageModule

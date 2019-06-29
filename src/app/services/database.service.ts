@@ -54,6 +54,10 @@ export class DatabaseService {
     this.usersRef = this.aft.collection('users')
   }
 
+  getCurrentUser(){
+    return this.usersRef.doc(this.auth.userKey).valueChanges();
+  }
+
   getAllPersons(){
      return this.personRef.snapshotChanges();
   }
@@ -63,12 +67,17 @@ export class DatabaseService {
   }
 
   getAllUsers(){
-    return this.personRef.snapshotChanges();
+    return this.usersRef.snapshotChanges();
   }
 
   updateUserByID(id,newData){
     return this.aft.collection('users').doc(id).update(newData);
   }
+
+  getUserByID(id){
+    return this.aft.collection('users').doc(id).valueChanges();
+  }
+
 
   getPersonByID(id){
     return this.aft.collection('persons').doc(id).valueChanges()

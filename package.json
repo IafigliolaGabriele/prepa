@@ -29,6 +29,7 @@
     "html2canvas": "^1.0.0-alpha.12",
     "jspdf": "^1.4.1",
     "ngx-bootstrap": "^3.0.1",
+    "ngx-paypal": "^4.0.1",
     "pdfmake": "^0.1.39",
     "rxjs": "~6.2.0",
     "synaptic": "^1.1.4",

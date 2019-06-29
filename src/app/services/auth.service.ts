@@ -41,6 +41,7 @@ export class AuthService {
         this.db.collection("users").doc(user.user.uid).set({
           username: value.username,
           email: value.email,
+          admin: false
          })
          console.log("User",user);
           user.user.updateProfile({
@@ -53,7 +54,7 @@ export class AuthService {
             console.log("Failure")
             // An error happened.
           });
-      resolve(true)
+        resolve(true)
       }, err => reject(err))
     })
   }

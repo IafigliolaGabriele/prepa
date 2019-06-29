@@ -1,7 +1,20 @@
 <div class ="container">
-    <div class="buttonGroup" >
-        <button type="button" class="btn actions btn-secondary" (click)="makeResponsive()">Responsive View</button>    
-        <button type="button" class="btn actions btn-secondary" (click)="orderCart()">Confirm Order</button>
+    <div>
+        <accordion>
+            <accordion-group [heading]="'Filter By Nombre'">
+                <input type="text" id="search" class="form-control" (change)="searchByName()" [(ngModel)]="searchText" >
+            </accordion-group>
+            <accordion-group [heading]="'Filter By Extra'">
+              <input type="text" id="search" class="form-control" (change)="searchByExtra()" [(ngModel)]="searchText" >
+          </accordion-group>
+          <accordion-group [heading]="'Filter By Type'">
+            <input type="text" id="search" class="form-control" (change)="searchByType()" [(ngModel)]="searchText" >
+        </accordion-group>
+        </accordion>
+    </div>
+    <div class="buttonGroup"  >
+        <button type="button" class="btn actions btn-secondary" style="--width: 50%;" (click)="makeResponsive()">Responsive View</button>    
+        <button type="button" class="btn actions btn-secondary" style="--width: 50%;" (click)="orderCart()">Confirm Order</button>
       </div>
      <div class="foodCards">
       <div class="foodCard"  *ngFor="let food of filteredDb">
@@ -11,6 +24,7 @@
               <h5> {{food.name}} </h5>
                 <ul>
                     <li>Description: {{food.description}}</li> 
+                    <li>Type: {{food.type}}</li>
                     <li>Price: {{food.price}}</li>
                 </ul>
               <h5> Extras Disponibles </h5>
@@ -24,6 +38,7 @@
                 <h5> {{food.name}} </h5>
                 <ul>
                     <li>Description: {{food.description}}</li> 
+                    <li>Type: {{food.type}}</li>
                     <li>Price: {{food.price}}</li>
                 </ul>
                 <h5> Extras Disponibles </h5>
@@ -38,9 +53,9 @@
     </div>
   <div>
     <div class="buttonGroup">
-      <button type="button" class="btn actions btn-secondary" (click)="openModal(template)">Add food</button>
+      <button type="button" class="btn actions btn-secondary" style="--width: 20%;"  (click)="openModal(template)">Add food</button>
       <button type="button" class="btn actions btn-primary" (click)="seeCart()">See Cart</button>
-      <button type="button" class="btn actions btn-secondary" (click)="orderCart()">Order Actual Cart</button>
+      <button type="button" class="btn actions btn-secondary" style="--width: 20%;"  (click)="orderCart()">Order Actual Cart</button>
     </div>
     <ng-template #template>
       <div class="modal-header">

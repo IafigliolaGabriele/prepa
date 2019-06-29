@@ -1,10 +1,10 @@
 <div class ="container">  
   <div>
     <accordion>
-        <accordion-group *ngFor="let person of filteredDb" [heading]="person.last_name.concat(',').concat(person.first_name)">
+        <accordion-group *ngFor="let person of filteredDb" [heading]="person.username">
           <app-person [person] = "person"> </app-person>
-          <button type="button" class="btn btn-primary" (click)="deletePerson(person)">Delete Person</button>
-          <button type="button" class="btn btn-primary" (click)="openModalWithInfo(template,person)">Edit Person</button>
+          <button *ngIf="currentUser.admin" type="button" class="btn btn-primary" (click)="makeAdmin(person)">Make admin</button>
+          <!-- <button type="button" class="btn btn-primary" (click)="openModalWithInfo(template,person)">Edit Person</button> -->
         </accordion-group>
     </accordion>
   </div>

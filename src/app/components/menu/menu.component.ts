@@ -20,6 +20,13 @@ class Food {
   description: string;
   image_url: string;
   price: number;
+  type: Type;
+}
+
+enum Type {
+  BREAKFAST,
+  LUNCH,
+  DINNER
 }
 
 @Component({
@@ -34,8 +41,10 @@ export class MenuComponent implements OnInit {
   className = 'insideFood';
   className2 = 'foodContent';
   insideFood2 = 'insideFood';
+  searchText:string;
   modalRef: BsModalRef;
   db: Observable<any[]>
+  originalDb: Array<Food>;
   filteredDb: Array<Food>;
   texto: string = "Texto";
   uploadPercent: Observable<number>;
@@ -77,6 +86,37 @@ export class MenuComponent implements OnInit {
     }
   }
   
+  searchByName(){
+    console.log("Texto",this.searchText)
+    this.filteredDb = [];
+    this.filteredDb = this.originalDb.filter((food:Food)=>{
+      if(food.name.includes(this.searchText)){
+        return food;
+      }
+    })
+  }
+
+  searchByExtra(){
+    console.log("Texto",this.searchText)
+    this.filteredDb = [];
+    this.filteredDb = this.originalDb.filter(food=>{
+        for(let i=0;i<food['ingredients'].length;i++){
+          if(food['ingredients'][i].name.includes(this.searchText)){
+            return food;
+          }
+        }
+    })
+  }
+
+  searchByType(){
+    console.log("Texto",this.searchText)
+    this.filteredDb = [];
+    this.filteredDb = this.originalDb.filter(food=>{
+        if(food.type==Type[this.searchText]){
+          return food;
+        }
+    })
+  }
 
   addToCart(food){
     let userInfo = JSON.parse(localStorage.getItem("userInfo"));
@@ -85,7 +125,7 @@ export class MenuComponent implements OnInit {
       userInfo.cart.push(food);
       localStorage.setItem("userInfo",JSON.stringify(userInfo)); 
     }else{
-      console.log(":oading",food)
+      console.log("Loading",food)
       let cart = [];
       cart.push(food);
       userInfo = {
@@ -297,6 +337,7 @@ closeModal() {
     this.db = this.database.getAllFoods();
     this.db.subscribe(data=>{
       console.log("data",data)
+      this.originalDb=[];
       this.filteredDb=[];
       data.forEach(element => {
         let newFood = element.payload.doc.data();
@@ -311,6 +352,7 @@ closeModal() {
             newIngredient["quantity"] = 0;
             newFood['ingredients'].push(newIngredient);
           })
+          this.originalDb.push(newFood)
           this.filteredDb.push(newFood)
         })
       });
